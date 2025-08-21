@@ -6,9 +6,6 @@ using Ownership.Application.Response;
 using Ownership.Domain.Entities;
 using Ownership.Domain.ValueObjects;
 using Ownership.Infrastracture.Data;
-using Property.Application.Response;
-using Property.Domain.Entities;
-using Property.Domain.ValueObjects;
 
 namespace Ownership.Infrastracture.QueryHandler
 {
@@ -27,8 +24,7 @@ namespace Ownership.Infrastracture.QueryHandler
         {
             IQueryable<Owner> query = _context.Owners.AsQueryable();
 
-            return await query
-                              .ProjectTo<OwnerResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            return await query.ProjectTo<OwnerResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<OwnerResponse?> GetOwnerResponseByIdAsync(Guid id)

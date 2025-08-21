@@ -8,7 +8,7 @@ using Ownership.Controller.Request;
 
 namespace Ownership.Controller
 {
-    [Route("api/buildings")]
+    [Route("api/owners")]
     [ApiController]
     public class OwnersController : ControllerBase
     {
