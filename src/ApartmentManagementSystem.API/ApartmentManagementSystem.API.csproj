@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>6c61e612-a729-48ab-a5c0-a17649449029</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.18">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.18">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.6.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Identity\Identity.Application\Identity.Application.csproj" />
+    <ProjectReference Include="..\Identity\Identity.Controller\Identity.Controller.csproj" />
+    <ProjectReference Include="..\Identity\Identity.Infrastracture\Identity.Infrastracture.csproj" />
+    <ProjectReference Include="..\Ownership\Ownership.Application\Ownership.Application.csproj" />
+    <ProjectReference Include="..\Ownership\Ownership.Controller\Ownership.Controller.csproj" />
+    <ProjectReference Include="..\Ownership\Ownership.Infrastracture\Ownership.Infrastracture.csproj" />
+    <ProjectReference Include="..\Property\Property.Application\Property.Application.csproj" />
+    <ProjectReference Include="..\Property\Property.Controller\Property.Controller.csproj" />
+    <ProjectReference Include="..\Property\Property.Infrastracture\Property.Infrastracture.csproj" />
+  </ItemGroup>
+
+</Project>

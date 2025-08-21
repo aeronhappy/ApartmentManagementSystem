@@ -1,0 +1,24 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Ownership.Domain.Entities;
+using Ownership.Domain.ValueObjects;
+
+namespace Ownership.Infrastracture.Data.Configuration
+{
+    public class OwnerConfiguration : IEntityTypeConfiguration<Owner>
+    {
+        public void Configure(EntityTypeBuilder<Owner> owner)
+        {
+
+            owner.HasKey(o => o.Id);
+            owner.Property(o => o.Id)
+                .HasConversion(
+                    o => o.Value,
+                    value => new OwnerId(value));
+            owner.HasMany(b => b.Unit)
+                .WithOne(u => u.Owner)
+                .HasForeignKey(u => u.OwnerId);
+
+        }
+    }
+}

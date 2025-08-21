@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApartmentManagementSystem.SharedKernel\ApartmentManagementSystem.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\Property\Property.Application\Property.Application.csproj" />
+    <ProjectReference Include="..\Ownership.Domain\Ownership.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Errors\" />
+    <Folder Include="EventHandler\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>
