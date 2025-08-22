@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ownership.Infrastracture.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialOwnershipMigration : Migration
+    public partial class InitialOwnerMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

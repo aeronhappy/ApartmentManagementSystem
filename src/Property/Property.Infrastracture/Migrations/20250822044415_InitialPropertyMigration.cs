@@ -30,6 +30,22 @@ namespace Property.Infrastracture.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Owner",
+                schema: "Property",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Owner", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Units",
                 schema: "Property",
                 columns: table => new
@@ -39,7 +55,8 @@ namespace Property.Infrastracture.Migrations
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Floor = table.Column<int>(type: "int", nullable: false),
                     AreaSqm = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,6 +68,13 @@ namespace Property.Infrastracture.Migrations
                         principalTable: "Buildings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Units_Owner_OwnerId",
+                        column: x => x.OwnerId,
+                        principalSchema: "Property",
+                        principalTable: "Owner",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -58,6 +82,12 @@ namespace Property.Infrastracture.Migrations
                 schema: "Property",
                 table: "Units",
                 column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Units_OwnerId",
+                schema: "Property",
+                table: "Units",
+                column: "OwnerId");
         }
 
         /// <inheritdoc />
@@ -69,6 +99,10 @@ namespace Property.Infrastracture.Migrations
 
             migrationBuilder.DropTable(
                 name: "Buildings",
+                schema: "Property");
+
+            migrationBuilder.DropTable(
+                name: "Owner",
                 schema: "Property");
         }
     }

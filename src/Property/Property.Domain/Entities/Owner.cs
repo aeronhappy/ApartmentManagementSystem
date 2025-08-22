@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Property.Domain.Entities
 {
-    public class OwnerEntity
+    public class Owner
     {
-        public OwnerEntityId Id { get; set; } = null!;
+        public OwnerId Id { get; set; } = null!;
 
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

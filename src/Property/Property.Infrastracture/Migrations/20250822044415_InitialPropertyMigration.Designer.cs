@@ -5,28 +5,28 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Ownership.Infrastracture.Data;
+using Property.Infrastracture.Data;
 
 #nullable disable
 
-namespace Ownership.Infrastracture.Migrations
+namespace Property.Infrastracture.Migrations
 {
-    [DbContext(typeof(OwnershipDbContext))]
-    [Migration("20250821103201_InitialOwnershipMigration")]
-    partial class InitialOwnershipMigration
+    [DbContext(typeof(PropertyDbContext))]
+    [Migration("20250822044415_InitialPropertyMigration")]
+    partial class InitialPropertyMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Ownership")
+                .HasDefaultSchema("Property")
                 .HasAnnotation("ProductVersion", "8.0.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Ownership.Domain.Entities.Building", b =>
+            modelBuilder.Entity("Property.Domain.Entities.Building", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -44,10 +44,10 @@ namespace Ownership.Infrastracture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Building", "Ownership");
+                    b.ToTable("Buildings", "Property");
                 });
 
-            modelBuilder.Entity("Ownership.Domain.Entities.Owner", b =>
+            modelBuilder.Entity("Property.Domain.Entities.Owner", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -70,10 +70,10 @@ namespace Ownership.Infrastracture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Owners", "Ownership");
+                    b.ToTable("Owner", "Property");
                 });
 
-            modelBuilder.Entity("Ownership.Domain.Entities.Unit", b =>
+            modelBuilder.Entity("Property.Domain.Entities.Unit", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -103,18 +103,18 @@ namespace Ownership.Infrastracture.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Unit", "Ownership");
+                    b.ToTable("Units", "Property");
                 });
 
-            modelBuilder.Entity("Ownership.Domain.Entities.Unit", b =>
+            modelBuilder.Entity("Property.Domain.Entities.Unit", b =>
                 {
-                    b.HasOne("Ownership.Domain.Entities.Building", "Building")
+                    b.HasOne("Property.Domain.Entities.Building", "Building")
                         .WithMany("Unit")
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ownership.Domain.Entities.Owner", "Owner")
+                    b.HasOne("Property.Domain.Entities.Owner", "Owner")
                         .WithMany("Unit")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -125,12 +125,12 @@ namespace Ownership.Infrastracture.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Ownership.Domain.Entities.Building", b =>
+            modelBuilder.Entity("Property.Domain.Entities.Building", b =>
                 {
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("Ownership.Domain.Entities.Owner", b =>
+            modelBuilder.Entity("Property.Domain.Entities.Owner", b =>
                 {
                     b.Navigation("Unit");
                 });

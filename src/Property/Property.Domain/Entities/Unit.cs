@@ -13,8 +13,8 @@ namespace Property.Domain.Entities
         public int Floor { get; private set; } = 0;
         public int AreaSqm { get; private set; } = 0;
         public UnitStatus Status { get; private set; } = UnitStatus.Vacant;
-        public OwnerEntityId OwnerId { get; private set; } = null!;
-        public OwnerEntity Owner { get; private set; } = null!;
+        public OwnerId OwnerId { get; private set; } = null!;
+        public Owner Owner { get; private set; } = null!;
 
         //public TenantId TenantId { get; private set; }
 

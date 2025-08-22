@@ -5,28 +5,28 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Property.Infrastracture.Data;
+using Ownership.Infrastracture.Data;
 
 #nullable disable
 
-namespace Property.Infrastracture.Migrations
+namespace Ownership.Infrastracture.Migrations
 {
-    [DbContext(typeof(PropertyDbContext))]
-    [Migration("20250821063741_InitialPropertyMigration")]
-    partial class InitialPropertyMigration
+    [DbContext(typeof(OwnershipDbContext))]
+    [Migration("20250822042349_InitialOwnerMigration")]
+    partial class InitialOwnerMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Property")
+                .HasDefaultSchema("Ownership")
                 .HasAnnotation("ProductVersion", "8.0.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Property.Domain.Entities.Building", b =>
+            modelBuilder.Entity("Ownership.Domain.Entities.Building", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -44,10 +44,36 @@ namespace Property.Infrastracture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Buildings", "Property");
+                    b.ToTable("Building", "Ownership");
                 });
 
-            modelBuilder.Entity("Property.Domain.Entities.Unit", b =>
+            modelBuilder.Entity("Ownership.Domain.Entities.Owner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Owners", "Ownership");
+                });
+
+            modelBuilder.Entity("Ownership.Domain.Entities.Unit", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -65,6 +91,9 @@ namespace Property.Infrastracture.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -72,21 +101,36 @@ namespace Property.Infrastracture.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.ToTable("Units", "Property");
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Unit", "Ownership");
                 });
 
-            modelBuilder.Entity("Property.Domain.Entities.Unit", b =>
+            modelBuilder.Entity("Ownership.Domain.Entities.Unit", b =>
                 {
-                    b.HasOne("Property.Domain.Entities.Building", "Building")
+                    b.HasOne("Ownership.Domain.Entities.Building", "Building")
                         .WithMany("Unit")
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Ownership.Domain.Entities.Owner", "Owner")
+                        .WithMany("Unit")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Building");
+
+                    b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Property.Domain.Entities.Building", b =>
+            modelBuilder.Entity("Ownership.Domain.Entities.Building", b =>
+                {
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Ownership.Domain.Entities.Owner", b =>
                 {
                     b.Navigation("Unit");
                 });

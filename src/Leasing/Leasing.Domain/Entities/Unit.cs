@@ -1,4 +1,5 @@
-﻿using Ownership.Domain.ValueObjects;
+﻿using Leasing.Domain.Entities;
+using Ownership.Domain.ValueObjects;
 using Property.Domain.Entities;
 using Property.Domain.Enum;
 using Property.Domain.ValueObjects;

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Ownership.Application.Response;
-using Ownership.Domain.Entities;
+using Property.Application.Response;
+using Property.Domain.Entities;
 
-namespace Ownership.Infrastracture.MappingProfile
+namespace Property.Infrastracture.MappingProfile
 {
 
     public class OwnerMappingProfile : Profile

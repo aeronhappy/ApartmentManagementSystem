@@ -1,5 +1,5 @@
 ﻿namespace Property.Domain.ValueObjects
 {
-    public record OwnerEntityId(Guid Value);
+    public record OwnerId(Guid Value);
 
 }

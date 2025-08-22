@@ -10,6 +10,8 @@ namespace Ownership.Infrastracture.MappingProfile
         public UnitMappingProfile()
         {
             CreateMap<Unit, UnitResponse>()
+                .ForMember(u => u.Id, option => option.MapFrom(u => u.Id.Value)); 
+            CreateMap<Unit, UnitResponseWithoutBuilding>()
                 .ForMember(u => u.Id, option => option.MapFrom(u => u.Id.Value));
 
         }

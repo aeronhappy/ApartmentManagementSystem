@@ -44,6 +44,32 @@ namespace Property.Infrastracture.Migrations
                     b.ToTable("Buildings", "Property");
                 });
 
+            modelBuilder.Entity("Property.Domain.Entities.Owner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Owner", "Property");
+                });
+
             modelBuilder.Entity("Property.Domain.Entities.Unit", b =>
                 {
                     b.Property<Guid>("Id")
@@ -62,12 +88,17 @@ namespace Property.Infrastracture.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BuildingId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Units", "Property");
                 });
@@ -80,10 +111,23 @@ namespace Property.Infrastracture.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Property.Domain.Entities.Owner", "Owner")
+                        .WithMany("Unit")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Building");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Property.Domain.Entities.Building", b =>
+                {
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Property.Domain.Entities.Owner", b =>
                 {
                     b.Navigation("Unit");
                 });
