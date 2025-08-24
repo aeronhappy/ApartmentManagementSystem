@@ -14,5 +14,36 @@ namespace Property.Domain.Entities
         public string ContactNumber { get; set; } = string.Empty;
         public List<Unit> Unit { get; set; } = [];
 
+        protected Owner() { }
+
+        // Private constructor
+        private Owner(OwnerId id,string email, string name, string address, string contactNumber)
+        {
+            Id = id;
+            Email = email;
+            Name = name;
+            Address = address;
+            ContactNumber = contactNumber;
+        }
+
+
+        // Factory method to create a Building
+        public static Owner Create(string email ,string name, string address, string contactNumber)
+        {
+            var owner = new Owner(id: new OwnerId(Guid.NewGuid()), email: email, name: name, address: address, contactNumber: contactNumber);
+            return owner;
+        }
+
+        public void Update(string name, string address, string contactNumber)
+        {
+            Name = name;
+            Address = address;
+            ContactNumber = contactNumber;
+        }
+
+        public void AddUnitToOwner(Unit unit)
+        {
+            Unit.Add(unit);
+        }
     }
 }

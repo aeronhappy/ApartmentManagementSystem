@@ -9,10 +9,10 @@ using Identity.Infrastracture;
 using Property.Application;
 using Property.Controller;
 using Property.Infrastracture;
-//Property
-using Ownership.Application;
-using Ownership.Controller;
-using Ownership.Infrastracture;
+//Leasing
+using Leasing.Application;
+using Leasing.Controller;
+using Leasing.Infrastracture;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
      .AddApplicationPart(typeof(AuthenticationController).Assembly)
      .AddApplicationPart(typeof(BuildingsController).Assembly)
-     .AddApplicationPart(typeof(OwnersController).Assembly);
+     .AddApplicationPart(typeof(TenantsController).Assembly);
 
 builder.Services.AddOpenApi(options =>
 {
@@ -74,14 +74,14 @@ builder.Services.AddMediatR(cfg =>
 //Identity
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
 builder.Services.AddIdentityApplication();
-
 //Property
 builder.Services.AddPropertyInfrastructure(builder.Configuration);
 builder.Services.AddPropertyApplication();
+//Leasing
+builder.Services.AddLeasingInfrastructure(builder.Configuration);
+builder.Services.AddLeasingApplication();
 
-//Owner
-builder.Services.AddOwnerInfrastructure(builder.Configuration);
-builder.Services.AddOwnerApplication();
+
 
 builder.Services.AddScoped<IEventBus, EventBus>();
 builder.Services.AddScoped<IDomainEventPublisher, DomainEventPublisher>();

@@ -1,5 +1,4 @@
-﻿
-using Property.Domain.Entities;
+﻿using Property.Domain.Entities;
 using Property.Domain.Repositories;
 using Property.Domain.ValueObjects;
 

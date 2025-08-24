@@ -4,6 +4,7 @@
     {
         IBuildingRepository Buildings { get; }
         IUnitRepository Units { get; }
+        IOwnerRepository Owners { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

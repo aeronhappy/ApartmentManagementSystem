@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ApartmentManagementSystem.SharedKernel\ApartmentManagementSystem.SharedKernel.csproj" />
-    <ProjectReference Include="..\..\Ownership\Ownership.Domain\Ownership.Domain.csproj" />
     <ProjectReference Include="..\Property.Domain\Property.Domain.csproj" />
   </ItemGroup>
 

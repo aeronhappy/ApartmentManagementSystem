@@ -10,4 +10,8 @@
     <Folder Include="DomainEvents\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApartmentManagementSystem.SharedKernel\ApartmentManagementSystem.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

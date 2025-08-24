@@ -17,7 +17,7 @@ namespace Property.Infrastracture.Data.Configuration
                 .HasConversion(u => u.Value, value => new BuildingId(value));
 
             unit.Property(u => u.OwnerId)
-                .HasConversion(u => u.Value, value => new OwnerId(value));
+                .HasConversion(u => u!.Value, value => new OwnerId(value));
 
             unit.HasOne(u => u.Building)
                 .WithMany(b => b.Unit)

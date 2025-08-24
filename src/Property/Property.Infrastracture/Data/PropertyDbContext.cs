@@ -17,13 +17,11 @@ namespace Property.Infrastracture.Data
               .ApplyConfigurationsFromAssembly(typeof(PropertyDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<Unit>()
-            //.HasOne(u => u.Building)
-            //.WithMany(b => b.Unit)
-            //.HasForeignKey(u => u.BuildingId);
+
         }
 
         public DbSet<Building> Buildings { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<Owner> Owners { get; set; }
     }
 }

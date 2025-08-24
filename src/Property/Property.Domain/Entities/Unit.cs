@@ -1,4 +1,5 @@
-﻿using Property.Domain.Enum;
+﻿
+using ApartmentManagementSystem.SharedKernel.Enum;
 using Property.Domain.ValueObjects;
 
 namespace Property.Domain.Entities
@@ -13,8 +14,8 @@ namespace Property.Domain.Entities
         public int Floor { get; private set; } = 0;
         public int AreaSqm { get; private set; } = 0;
         public UnitStatus Status { get; private set; } = UnitStatus.Vacant;
-        public OwnerId OwnerId { get; private set; } = null!;
-        public Owner Owner { get; private set; } = null!;
+        public OwnerId? OwnerId { get; private set; } = null!;
+        public Owner? Owner { get; private set; } = null!;
 
         //public TenantId TenantId { get; private set; }
 

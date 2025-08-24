@@ -7,17 +7,21 @@ namespace Property.Infrastracture.Data.Repositories
         private readonly PropertyDbContext _context;
         private readonly IBuildingRepository _buildingRepository;
         private readonly IUnitRepository _unitRepository;
+        private readonly IOwnerRepository _ownerRepository;
 
-        public UnitOfWork(PropertyDbContext context,IBuildingRepository buildingRepository,IUnitRepository unitRepository)
+        public UnitOfWork(PropertyDbContext context, IBuildingRepository buildingRepository, IUnitRepository unitRepository, IOwnerRepository ownerRepository)
         {
             _context = context;
             _buildingRepository = buildingRepository;
             _unitRepository = unitRepository;
+            _ownerRepository = ownerRepository;
         }
 
         public IBuildingRepository Buildings => _buildingRepository;
 
         public IUnitRepository Units => _unitRepository;
+
+        public IOwnerRepository Owners => _ownerRepository;
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {

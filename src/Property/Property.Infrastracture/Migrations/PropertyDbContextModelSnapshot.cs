@@ -67,7 +67,7 @@ namespace Property.Infrastracture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Owner", "Property");
+                    b.ToTable("Owners", "Property");
                 });
 
             modelBuilder.Entity("Property.Domain.Entities.Unit", b =>
@@ -88,7 +88,7 @@ namespace Property.Infrastracture.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OwnerId")
+                    b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -113,9 +113,7 @@ namespace Property.Infrastracture.Migrations
 
                     b.HasOne("Property.Domain.Entities.Owner", "Owner")
                         .WithMany("Unit")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Building");
 
