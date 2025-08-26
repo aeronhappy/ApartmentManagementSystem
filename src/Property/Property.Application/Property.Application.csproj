@@ -13,13 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ApartmentManagementSystem.Contracts\ApartmentManagementSystem.Contracts.csproj" />
     <ProjectReference Include="..\..\ApartmentManagementSystem.SharedKernel\ApartmentManagementSystem.SharedKernel.csproj" />
     <ProjectReference Include="..\Property.Domain\Property.Domain.csproj" />
+    <ProjectReference Include="..\Property.IntegrationEvent\Property.IntegrationEvent.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Errors\" />
-    <Folder Include="EventHandler\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

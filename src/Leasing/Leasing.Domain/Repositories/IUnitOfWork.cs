@@ -4,6 +4,7 @@
     {
         ITenantRepository Tenants { get; }
         ILeasingRepository Leasings { get; }
+        IApartmentRepository Apartments { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

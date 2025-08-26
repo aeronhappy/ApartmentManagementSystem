@@ -10,12 +10,12 @@ namespace Leasing.Infrastracture.Data.Configuration
         public void Configure(EntityTypeBuilder<Tenant> tenant)
         {
 
-            tenant.HasKey(o => o.Id);
-            tenant.Property(o => o.Id)
+            tenant.HasKey(t => t.Id);
+
+            tenant.Property(t => t.Id)
                 .HasConversion(
                     o => o.Value,
                     value => new TenantId(value));
-           
 
         }
     }

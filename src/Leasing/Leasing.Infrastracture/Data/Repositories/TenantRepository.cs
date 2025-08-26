@@ -1,6 +1,4 @@
-﻿using ApartmentManagementSystem.SharedKernel.Entitites;
-using ApartmentManagementSystem.SharedKernel.ValueObject;
-using Leasing.Domain.Entities;
+﻿using Leasing.Domain.Entities;
 using Leasing.Domain.Repositories;
 using Leasing.Domain.ValueObjects;
 

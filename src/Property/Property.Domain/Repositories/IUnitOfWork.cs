@@ -3,7 +3,7 @@
     public interface IUnitOfWork
     {
         IBuildingRepository Buildings { get; }
-        IUnitRepository Units { get; }
+        IApartmentRepository Apartments { get; }
         IOwnerRepository Owners { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }

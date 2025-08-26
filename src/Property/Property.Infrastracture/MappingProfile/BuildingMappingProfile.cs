@@ -11,7 +11,7 @@ namespace Property.Infrastracture.MappingProfile
         {
             CreateMap<Building, BuildingResponse>()
                 .ForMember(b => b.Id, option => option.MapFrom(r => r.Id.Value));
-            CreateMap<Building, BuildingResponseWithoutUnits>()
+            CreateMap<Building, BuildingResponseWithoutApartments>()
                 .ForMember(b => b.Id, option => option.MapFrom(r => r.Id.Value));
         }
     }

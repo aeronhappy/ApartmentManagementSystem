@@ -1,5 +1,4 @@
-﻿using ApartmentManagementSystem.SharedKernel.ValueObject;
-using Leasing.Domain.Entities;
+﻿using Leasing.Domain.Entities;
 using Leasing.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,8 +16,13 @@ namespace Leasing.Infrastracture.Data.Configuration
             leaseAgreement.Property(u => u.TenantId)
                 .HasConversion(u => u.Value, value => new TenantId(value));
 
-            leaseAgreement.Property(u => u.UnitId)
-                .HasConversion(u => u!.Value, value => new UnitId(value));
+            leaseAgreement.Property(u => u.ApartmentId)
+                .HasConversion(u => u!.Value, value => new ApartmentId(value));
+
+            leaseAgreement
+                .HasOne(l => l.Tenant)
+                .WithMany(t => t.LeaseAgreements)
+                .HasForeignKey(l => l.TenantId);
 
         }
     }

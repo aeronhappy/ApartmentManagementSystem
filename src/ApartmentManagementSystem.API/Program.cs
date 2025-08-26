@@ -23,6 +23,7 @@ builder.Services.AddControllers()
      .AddApplicationPart(typeof(BuildingsController).Assembly)
      .AddApplicationPart(typeof(TenantsController).Assembly);
 
+
 builder.Services.AddOpenApi(options =>
 {
     options.AddDocumentTransformer((doc, ctx, ct) =>
@@ -67,6 +68,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(Identity.Application.AssemblyReference).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(Property.Application.AssemblyReference).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(Leasing.Application.AssemblyReference).Assembly);
 });
 
 //Register Dependency Injection

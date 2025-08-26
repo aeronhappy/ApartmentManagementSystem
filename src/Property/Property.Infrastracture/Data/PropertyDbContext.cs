@@ -21,7 +21,8 @@ namespace Property.Infrastracture.Data
         }
 
         public DbSet<Building> Buildings { get; set; }
-        public DbSet<Unit> Units { get; set; }
+        public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Owner> Owners { get; set; }
+        public DbSet<LeaseAgreement> LeaseAgreements { get; set; }
     }
 }

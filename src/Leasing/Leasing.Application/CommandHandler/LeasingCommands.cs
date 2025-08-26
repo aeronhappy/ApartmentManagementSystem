@@ -1,7 +1,5 @@
-﻿using ApartmentManagementSystem.SharedKernel.Entitites;
-using ApartmentManagementSystem.SharedKernel.Enum;
+﻿using ApartmentManagementSystem.SharedKernel.Enum;
 using ApartmentManagementSystem.SharedKernel.Errors;
-using ApartmentManagementSystem.SharedKernel.ValueObject;
 using AutoMapper;
 using FluentResults;
 using Leasing.Application.Commands;
@@ -23,15 +21,19 @@ namespace Leasing.Application.CommandHandler
             _mapper = mapper;
         }
 
-        public async Task<Result<LeaseAgreementResponse>> CreateLeasingAsync(Guid tenantId, Guid unitId, DateTime dateStart,double monthlyRent, LeaseTerm leaseTerm, CancellationToken cancellationToken)
+        public async Task<Result<LeaseAgreementResponse>> CreateLeasingAsync(Guid tenantId, Guid apartmentId, DateTime dateStart,double monthlyRent, LeaseTerm leaseTerm, CancellationToken cancellationToken)
         {
             Tenant? tenant = await _unitOfWork.Tenants.GetTenantByIdAsync(new TenantId(tenantId));
 
             if (tenant == null)
                 return Result.Fail(new EntityNotFoundError($"No Tenant = {tenantId} found"));
 
+            Apartment? apartment = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
+            if (apartment == null)
+                return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
 
-            var leaseAgreement = LeaseAgreement.Create(new TenantId(tenantId),new UnitId(unitId),dateStart, leaseTerm,monthlyRent);
+
+            var leaseAgreement = LeaseAgreement.Create(new TenantId(tenantId),new ApartmentId(apartmentId),dateStart, leaseTerm,monthlyRent);
             var leaseAgreementResponse = _mapper.Map<LeaseAgreementResponse>(leaseAgreement);
 
             await _unitOfWork.Leasings.AddLeasingAsync(leaseAgreement);

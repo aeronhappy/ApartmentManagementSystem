@@ -1,17 +1,17 @@
 ﻿using ApartmentManagementSystem.SharedKernel.Entitites;
 using ApartmentManagementSystem.SharedKernel.Enum;
-using ApartmentManagementSystem.SharedKernel.ValueObject;
+using Leasing.Domain.DomainEvents;
 using Leasing.Domain.ValueObjects;
 
 namespace Leasing.Domain.Entities
 {
-    public class LeaseAgreement
+    public class LeaseAgreement : Entity
     {
         public LeaseAgreementId Id { get; private set; } = null!;
         public TenantId TenantId { get; private set; } = null!;
         public Tenant Tenant { get; private set; } = null!;
-        public UnitId UnitId { get; private set; } = null!;
-        public Unit Unit { get; private set; } = null!;
+        public ApartmentId ApartmentId { get; private set; } = null!;
+        public Apartment Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
         public LeaseTerm LeaseTermInMonths { get; private set; }
         public DateTime DateCreated { get; private set; }
@@ -24,7 +24,7 @@ namespace Leasing.Domain.Entities
         private LeaseAgreement(
             LeaseAgreementId leaseAgreementId,
             TenantId tenantId,
-            UnitId unitId,
+            ApartmentId apartmentId,
             DateTime dateStart,
             LeaseTerm leaseTerm,
             double monthlyRent,
@@ -32,7 +32,7 @@ namespace Leasing.Domain.Entities
         {
             Id = leaseAgreementId;
             TenantId = tenantId;
-            UnitId = unitId;
+            ApartmentId = apartmentId;
             DateCreated = DateTime.UtcNow;
             DateStart = dateStart;
             LeaseTermInMonths = leaseTerm;
@@ -41,25 +41,28 @@ namespace Leasing.Domain.Entities
             EnsureStatusUpToDate(now ?? DateTime.UtcNow);
         }
 
-       
+
         public static LeaseAgreement Create(
             TenantId tenantId,
-            UnitId unitId,
+            ApartmentId apartmentId,
             DateTime dateStart,
             LeaseTerm leaseTerm,
             double monthlyRent,
             DateTime? now = null)
         {
-            return new LeaseAgreement(new LeaseAgreementId(Guid.NewGuid()),
+            var leaseAgreement = new LeaseAgreement(new LeaseAgreementId(Guid.NewGuid()),
                                tenantId,
-                               unitId,
+                               apartmentId,
                                dateStart,
                                leaseTerm,
                                monthlyRent,
                                now);
+
+            leaseAgreement.RaiseDomainEvent(new LeaseAgreementCreatedEvent(leaseAgreement));
+            return leaseAgreement;
         }
 
-      
+
         public void EnsureStatusUpToDate(DateTime now)
         {
             var today = now.Date;

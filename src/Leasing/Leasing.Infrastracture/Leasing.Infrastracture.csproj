@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ApartmentManagementSystem.SharedKernel\ApartmentManagementSystem.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\Property\Property.IntegrationEvent\Property.IntegrationEvent.csproj" />
     <ProjectReference Include="..\Leasing.Application\Leasing.Application.csproj" />
     <ProjectReference Include="..\Leasing.Domain\Leasing.Domain.csproj" />
   </ItemGroup>

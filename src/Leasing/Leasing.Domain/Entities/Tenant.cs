@@ -1,5 +1,4 @@
-﻿using ApartmentManagementSystem.SharedKernel.ValueObject;
-using Leasing.Domain.ValueObjects;
+﻿using Leasing.Domain.ValueObjects;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,8 +14,7 @@ namespace Leasing.Domain.Entities
         public string Address { get; set; } = string.Empty;
         public int Gender { get; set; }
         public string ContactNumber { get; set; } = string.Empty;
-        public UnitId? UnitId { get; set; }
-        public Unit? Unit { get; set; }
+        public List<LeaseAgreement> LeaseAgreements { get; set; } = [];
 
         protected Tenant() { }
 

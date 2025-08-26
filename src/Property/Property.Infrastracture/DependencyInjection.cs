@@ -26,13 +26,13 @@ namespace Property.Infrastracture
           
             // Register Repositories
             services.AddScoped<IBuildingRepository, BuildingRepository>();
-            services.AddScoped<IUnitRepository, UnitRepository>();
+            services.AddScoped<IApartmentRepository, ApartmentRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             services.AddScoped<IBuildingQueries, BuildingQueries>();
-            services.AddScoped<IUnitQueries, UnitQueries>();
+            services.AddScoped<IApartmentQueries, ApartmentQueries>();
             services.AddScoped<IOwnerQueries, OwnerQueries>();
 
 

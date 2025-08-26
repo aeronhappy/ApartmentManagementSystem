@@ -1,4 +1,5 @@
-﻿using Property.Domain.ValueObjects;
+﻿using ApartmentManagementSystem.SharedKernel.Entitites;
+using Property.Domain.ValueObjects;
 
 namespace Property.Domain.Entities
 {
@@ -8,7 +9,7 @@ namespace Property.Domain.Entities
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public int FloorCount { get; set; }
-        public List<Unit> Unit { get; set; } = [];
+        public List<Apartment> Apartments { get; set; } = [];
 
         protected Building() { }
 
@@ -36,9 +37,9 @@ namespace Property.Domain.Entities
             FloorCount = floorCount;
         }
 
-        public void AddUnit(Unit unit)
+        public void AddApartment(Apartment apartment)
         {
-            Unit.Add(unit);
+            Apartments.Add(apartment);
         }
     }
 }

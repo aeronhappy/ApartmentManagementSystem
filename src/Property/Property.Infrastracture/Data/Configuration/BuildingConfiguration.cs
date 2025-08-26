@@ -16,7 +16,7 @@ namespace Property.Infrastracture.Data.Configuration
                     b => b.Value,
                     value => new BuildingId(value));
 
-            building.HasMany(b => b.Unit)
+            building.HasMany(b => b.Apartments)
                 .WithOne(u => u.Building) 
                 .HasForeignKey(u => u.BuildingId);
         }

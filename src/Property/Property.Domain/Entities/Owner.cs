@@ -1,4 +1,5 @@
-﻿using Property.Domain.ValueObjects;
+﻿using ApartmentManagementSystem.SharedKernel.Entitites;
+using Property.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace Property.Domain.Entities
@@ -12,7 +13,7 @@ namespace Property.Domain.Entities
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string ContactNumber { get; set; } = string.Empty;
-        public List<Unit> Unit { get; set; } = [];
+        public List<Apartment> Apartments { get; set; } = [];
 
         protected Owner() { }
 
@@ -41,9 +42,5 @@ namespace Property.Domain.Entities
             ContactNumber = contactNumber;
         }
 
-        public void AddUnitToOwner(Unit unit)
-        {
-            Unit.Add(unit);
-        }
     }
 }

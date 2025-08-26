@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Property.Application", "Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Property.Infrastracture", "Property\Property.Infrastracture\Property.Infrastracture.csproj", "{AE00810C-5918-494F-97CF-85D8385A8475}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Property.IntegrationEvent", "Property\Property.IntegrationEvent\Property.IntegrationEvent.csproj", "{2F4E1260-7EA2-4FFC-8C90-CF4D2EAC659F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{AE00810C-5918-494F-97CF-85D8385A8475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE00810C-5918-494F-97CF-85D8385A8475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE00810C-5918-494F-97CF-85D8385A8475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4E1260-7EA2-4FFC-8C90-CF4D2EAC659F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4E1260-7EA2-4FFC-8C90-CF4D2EAC659F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4E1260-7EA2-4FFC-8C90-CF4D2EAC659F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4E1260-7EA2-4FFC-8C90-CF4D2EAC659F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,6 +153,7 @@ Global
 		{596E9697-388F-4123-B52C-DDF574E048D0} = {CEDE97F9-F878-41EE-B659-77C3002B59C3}
 		{9834CE9D-5406-40EA-8960-717B4C015B91} = {CEDE97F9-F878-41EE-B659-77C3002B59C3}
 		{AE00810C-5918-494F-97CF-85D8385A8475} = {CEDE97F9-F878-41EE-B659-77C3002B59C3}
+		{2F4E1260-7EA2-4FFC-8C90-CF4D2EAC659F} = {CEDE97F9-F878-41EE-B659-77C3002B59C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E50CF6FB-B798-47B7-9389-99AFAAE0B1D9}
