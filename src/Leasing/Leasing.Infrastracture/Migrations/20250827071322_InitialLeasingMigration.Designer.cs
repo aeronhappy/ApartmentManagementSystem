@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Leasing.Infrastracture.Migrations
 {
     [DbContext(typeof(LeasingDbContext))]
-    [Migration("20250826095107_InitialLeasingMigration")]
+    [Migration("20250827071322_InitialLeasingMigration")]
     partial class InitialLeasingMigration
     {
         /// <inheritdoc />
@@ -44,9 +44,12 @@ namespace Leasing.Infrastracture.Migrations
                     b.Property<int>("Floor")
                         .HasColumnType("int");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
@@ -79,14 +82,14 @@ namespace Leasing.Infrastracture.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LeaseStatus")
-                        .HasColumnType("int");
-
                     b.Property<int>("LeaseTermInMonths")
                         .HasColumnType("int");
 
                     b.Property<double>("MonthlyRent")
                         .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");

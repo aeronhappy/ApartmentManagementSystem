@@ -31,9 +31,9 @@ namespace Leasing.Domain.Entities
 
 
         // Factory method to create a Tenant
-        public static Tenant Create(string email ,string name, string address,int gender, string contactNumber)
+        public static Tenant Create(Guid id,string email ,string name, string address,int gender, string contactNumber)
         {
-            var tenant = new Tenant(new TenantId(Guid.NewGuid()), email,  name, address, gender, contactNumber);
+            var tenant = new Tenant(new TenantId(id), email,  name, address, gender, contactNumber);
             return tenant;
         }
 

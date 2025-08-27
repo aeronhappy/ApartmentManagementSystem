@@ -1,8 +1,20 @@
 ﻿using ApartmentManagementSystem.SharedKernel;
-using Leasing.Domain.Entities;
+using ApartmentManagementSystem.SharedKernel.Enum;
 
 namespace Leasing.IntegrationEvent
 {
-    public record LeaseAgreementCreatedIntegrationEvent(LeaseAgreement LeaseAgreement) : IIntegrationEvent;
+    public record LeaseAgreementCreatedIntegrationEvent
+        (
+            Guid Id, 
+            Guid TenantId,
+            string TenantName,
+            Guid ApartmentId,
+            double MonthlyRent, 
+            LeaseTerm LeaseTermInMonths,
+            DateTime DateCreated,DateTime 
+            DateStart,
+            DateTime DateEnd,
+            LeaseStatus Status
+        ) : IIntegrationEvent;
    
 }

@@ -12,7 +12,7 @@ using Property.Infrastracture.Data;
 namespace Property.Infrastracture.Migrations
 {
     [DbContext(typeof(PropertyDbContext))]
-    [Migration("20250826095748_InitialPropertyMigration")]
+    [Migration("20250827071436_InitialPropertyMigration")]
     partial class InitialPropertyMigration
     {
         /// <inheritdoc />
@@ -43,9 +43,12 @@ namespace Property.Infrastracture.Migrations
                     b.Property<Guid?>("LeaseAgreementId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
@@ -99,14 +102,14 @@ namespace Property.Infrastracture.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LeaseStatus")
-                        .HasColumnType("int");
-
                     b.Property<int>("LeaseTermInMonths")
                         .HasColumnType("int");
 
                     b.Property<double>("MonthlyRent")
                         .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");

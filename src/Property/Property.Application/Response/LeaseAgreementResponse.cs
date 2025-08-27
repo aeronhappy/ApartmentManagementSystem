@@ -12,7 +12,7 @@ namespace Property.Application.Response
         public DateTime DateCreated { get;  set; }
         public DateTime DateStart { get;  set; }
         public DateTime DateEnd { get;  set; }
-        public LeaseStatus LeaseStatus { get;  set; } = LeaseStatus.Created;
+        public LeaseStatus Status { get;  set; } = LeaseStatus.Created;
 
     }
 }

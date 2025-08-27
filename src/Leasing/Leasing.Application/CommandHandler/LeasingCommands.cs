@@ -1,4 +1,5 @@
-﻿using ApartmentManagementSystem.SharedKernel.Enum;
+﻿using ApartmentManagementSystem.Contracts.Services;
+using ApartmentManagementSystem.SharedKernel.Enum;
 using ApartmentManagementSystem.SharedKernel.Errors;
 using AutoMapper;
 using FluentResults;
@@ -14,11 +15,13 @@ namespace Leasing.Application.CommandHandler
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IDomainEventPublisher _domainEventPublisher;
 
-        public LeasingCommands(IUnitOfWork unitOfWork, IMapper mapper)
+        public LeasingCommands(IUnitOfWork unitOfWork, IMapper mapper, IDomainEventPublisher domainEventPublisher)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _domainEventPublisher = domainEventPublisher;
         }
 
         public async Task<Result<LeaseAgreementResponse>> CreateLeasingAsync(Guid tenantId, Guid apartmentId, DateTime dateStart,double monthlyRent, LeaseTerm leaseTerm, CancellationToken cancellationToken)
@@ -38,6 +41,7 @@ namespace Leasing.Application.CommandHandler
 
             await _unitOfWork.Leasings.AddLeasingAsync(leaseAgreement);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _domainEventPublisher.PublishAsync(leaseAgreement.DomainEvents, default);
             return Result.Ok(leaseAgreementResponse);
         }
 

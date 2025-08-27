@@ -20,7 +20,15 @@ namespace Identity.Controller
         public async Task<ActionResult> Register([FromBody] RegisterUserRequest request)
         {
             var response =
-                await _authenticationService.RegisterAsync(request.Name, request.Email, request.Password, request.RolesId, HttpContext.RequestAborted);
+                await _authenticationService.RegisterAsync(
+                    request.Name, 
+                    request.Email, 
+                    request.Password, 
+                    request.Address,
+                    request.Gender,
+                    request.ContactNumber, 
+                    request.RolesId,
+                    HttpContext.RequestAborted);
             return Ok(response);
         }
 

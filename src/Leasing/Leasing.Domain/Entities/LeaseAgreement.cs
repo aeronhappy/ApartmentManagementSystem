@@ -17,7 +17,7 @@ namespace Leasing.Domain.Entities
         public DateTime DateCreated { get; private set; }
         public DateTime DateStart { get; private set; }
         public DateTime DateEnd { get; private set; }
-        public LeaseStatus LeaseStatus { get; private set; } = LeaseStatus.Created;
+        public LeaseStatus Status { get; private set; } = LeaseStatus.Created;
 
         protected LeaseAgreement() { }
         
@@ -66,22 +66,22 @@ namespace Leasing.Domain.Entities
         public void EnsureStatusUpToDate(DateTime now)
         {
             var today = now.Date;
-            if (LeaseStatus == LeaseStatus.Terminated)
+            if (Status == LeaseStatus.Terminated)
                 return;
 
             if (today < DateStart.Date)
-                LeaseStatus = LeaseStatus.Created;
+                Status = LeaseStatus.Created;
             else if (today >= DateEnd.Date)
-                LeaseStatus = LeaseStatus.Ended;
+                Status = LeaseStatus.Ended;
             else
-                LeaseStatus = LeaseStatus.Active;
+                Status = LeaseStatus.Active;
         }
 
      
         public void Terminate()
         {
-            if (LeaseStatus == LeaseStatus.Ended) return;
-            LeaseStatus = LeaseStatus.Terminated;
+            if (Status == LeaseStatus.Ended) return;
+            Status = LeaseStatus.Terminated;
         }
     }
 }

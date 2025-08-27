@@ -9,12 +9,12 @@ namespace Leasing.Application.Response
         public required Guid Id { get; set; } 
         public required Guid BuildingId { get; set; }
         public required string BuildingName { get; set; }
-        public string Number { get; set; } = string.Empty;
+        public string Name { get; private set; } = string.Empty;
+        public int Number { get; private set; }
         public int Floor { get; set; } = 0;
         public int AreaSqm { get; set; } = 0;
         public ApartmentStatus Status { get; set; } = ApartmentStatus.Vacant;
-        public required Guid? OwnerId { get; set; }
-        public string? OwnerName { get; set; }
+
 
     }
 

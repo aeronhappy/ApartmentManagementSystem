@@ -25,12 +25,12 @@ namespace Leasing.Infrastracture.Data.Repositories
 
         public async Task DeleteLeasingAsync(LeaseAgreementId id)
         {
-            var unit = await _context.LeaseAgreements.FindAsync(id);
+            var leaseAgreement = await _context.LeaseAgreements.FindAsync(id);
 
-            if (unit is null)
+            if (leaseAgreement is null)
                 return;
 
-            _context.LeaseAgreements.Remove(unit);
+            _context.LeaseAgreements.Remove(leaseAgreement);
         }
     }
 }

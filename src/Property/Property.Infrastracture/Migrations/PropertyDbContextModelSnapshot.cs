@@ -40,9 +40,12 @@ namespace Property.Infrastracture.Migrations
                     b.Property<Guid?>("LeaseAgreementId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
@@ -54,7 +57,9 @@ namespace Property.Infrastracture.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.HasIndex("LeaseAgreementId");
+                    b.HasIndex("LeaseAgreementId")
+                        .IsUnique()
+                        .HasFilter("[LeaseAgreementId] IS NOT NULL");
 
                     b.HasIndex("OwnerId");
 
@@ -87,6 +92,9 @@ namespace Property.Infrastracture.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ApartmentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -96,14 +104,14 @@ namespace Property.Infrastracture.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LeaseStatus")
-                        .HasColumnType("int");
-
                     b.Property<int>("LeaseTermInMonths")
                         .HasColumnType("int");
 
                     b.Property<double>("MonthlyRent")
                         .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -152,8 +160,9 @@ namespace Property.Infrastracture.Migrations
                         .IsRequired();
 
                     b.HasOne("Property.Domain.Entities.LeaseAgreement", "LeaseAgreement")
-                        .WithMany()
-                        .HasForeignKey("LeaseAgreementId");
+                        .WithOne("Apartment")
+                        .HasForeignKey("Property.Domain.Entities.Apartment", "LeaseAgreementId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Property.Domain.Entities.Owner", "Owner")
                         .WithMany("Apartments")
@@ -169,6 +178,12 @@ namespace Property.Infrastracture.Migrations
             modelBuilder.Entity("Property.Domain.Entities.Building", b =>
                 {
                     b.Navigation("Apartments");
+                });
+
+            modelBuilder.Entity("Property.Domain.Entities.LeaseAgreement", b =>
+                {
+                    b.Navigation("Apartment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Property.Domain.Entities.Owner", b =>

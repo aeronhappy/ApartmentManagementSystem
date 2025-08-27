@@ -1,6 +1,7 @@
 ﻿using Leasing.Domain.Entities;
 using Leasing.Domain.Repositories;
 using Leasing.Domain.ValueObjects;
+using MediatR;
 
 namespace Leasing.Infrastracture.Data.Repositories
 {
@@ -13,10 +14,26 @@ namespace Leasing.Infrastracture.Data.Repositories
             _context = context;
         }
 
+        public async Task AddApartmentAsync(Apartment apartment)
+        {
+            await _context.Apartments.AddAsync(apartment);
+        }
+
+        public async Task DeleteApartmentAsync(ApartmentId id)
+        {
+            var apartment = await _context.Apartments.FindAsync(id);
+
+            if (apartment is null)
+                return;
+
+            _context.Apartments.Remove(apartment);
+        }
+
         public async Task<Apartment?> GetApartmentByIdAsync(ApartmentId id)
         {
             return await _context.Apartments.FindAsync(id);
         }
 
+      
     }
 }

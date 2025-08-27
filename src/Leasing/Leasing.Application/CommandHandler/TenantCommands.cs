@@ -22,9 +22,9 @@ namespace Leasing.Application.CommandHandler
         }
 
 
-        public async Task<Result<TenantResponse>> AddTenantAsync(string email, string name, string address,int gender,string contactNumber, CancellationToken cancellationToken)
+        public async Task<Result<TenantResponse>> AddTenantAsync(Guid id, string email, string name, string address,int gender,string contactNumber, CancellationToken cancellationToken)
         {
-            var tenant = Tenant.Create(email, name, address,gender, contactNumber);
+            var tenant = Tenant.Create(id,email, name, address,gender, contactNumber);
             var tenantResponse = _mapper.Map<TenantResponse>(tenant);
             await _unitOfWork.Tenants.AddTenantAsync(tenant);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

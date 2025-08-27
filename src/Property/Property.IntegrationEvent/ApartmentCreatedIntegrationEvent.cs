@@ -1,8 +1,18 @@
 ﻿using ApartmentManagementSystem.SharedKernel;
-using Property.Domain.Entities;
+using ApartmentManagementSystem.SharedKernel.Enum;
 
 namespace Property.IntegrationEvent
 {
-    public record ApartmentCreatedIntegrationEvent(Apartment Apartment) : IIntegrationEvent;
+    public record ApartmentCreatedIntegrationEvent
+        (
+            Guid ApplicationId,
+            Guid BuildingId,
+            string BuildingName,
+            string Name,
+            int Number,
+            int Floor,
+            int AreaSqm,
+            ApartmentStatus Status
+        ) : IIntegrationEvent;
    
 }

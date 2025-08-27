@@ -28,6 +28,7 @@ namespace Property.Infrastracture
             services.AddScoped<IBuildingRepository, BuildingRepository>();
             services.AddScoped<IApartmentRepository, ApartmentRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
+            services.AddScoped<ILeasingRepository, LeasingRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

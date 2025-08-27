@@ -15,8 +15,13 @@ namespace Property.Infrastracture.Data.Configuration
                 .HasConversion(
                     o => o.Value,
                     value => new LeaseAgreementId(value));
-          
 
+            leaseAgreement.Property(o => o.ApartmentId)
+                .HasConversion(
+                    o => o.Value,
+                    value => new ApartmentId(value));
+
+            leaseAgreement.ToTable("LeaseAgreements", "Property");
         }
     }
 }

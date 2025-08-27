@@ -25,12 +25,12 @@ namespace Leasing.Infrastracture.Data.Repositories
 
         public async Task DeleteTenantAsync(TenantId id)
         {
-            var owner = await _context.Tenants.FindAsync(id);
+            var tenant = await _context.Tenants.FindAsync(id);
 
-            if (owner is null)
+            if (tenant is null)
                 return;
 
-            _context.Tenants.Remove(owner);
+            _context.Tenants.Remove(tenant);
         }
     }
 }

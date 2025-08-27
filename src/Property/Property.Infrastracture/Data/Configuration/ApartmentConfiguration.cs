@@ -26,6 +26,15 @@ namespace Property.Infrastracture.Data.Configuration
                 .WithMany(b => b.Apartments)
                 .HasForeignKey(u => u.BuildingId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            apartment.HasOne(a => a.LeaseAgreement)
+                .WithOne(l => l.Apartment)           
+                .HasForeignKey<Apartment>(a => a.LeaseAgreementId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            apartment.ToTable("Apartments", "Property");
+
+
         }
     }
 }

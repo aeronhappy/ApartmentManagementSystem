@@ -6,7 +6,7 @@
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public int FloorCount { get; set; }
-        public List<ApartmentResponseWithoutBuilding> Unit { get; set; } = [];
+        public List<ApartmentResponseWithoutBuilding> Apartments { get; set; } = [];
     }
 
 

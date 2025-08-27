@@ -1,5 +1,4 @@
-﻿
-using ApartmentManagementSystem.Contracts.Services;
+﻿using ApartmentManagementSystem.Contracts.Services;
 using Identity.Domain.DomainEvents;
 using Identity.IntegrationEvent;
 using MediatR;
@@ -22,7 +21,11 @@ namespace Identity.Application.EventHandler
             var integrationEvent = new UserCreatedIntegrationEvent(
                 notification.User.Id.Value,
                 notification.User.Email,
-                notification.User.Name);
+                notification.User.Name, 
+                notification.Address,
+                notification.Gender, 
+                notification.ContactNumber, 
+                notification.User.Roles[0].Name);
 
             await _eventBus.PublishAsync(integrationEvent, cancellationToken);
         }

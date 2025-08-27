@@ -61,7 +61,14 @@ namespace Identity.Application.CommandHandler
             };
         }
 
-        public async Task<AuthenticationResponse> RegisterAsync(string name, string email, string password, List<Guid> rolesId, CancellationToken cancellationToken)
+        public async Task<AuthenticationResponse> RegisterAsync(string name, 
+                                                                string email,
+                                                                string password,
+                                                                string address,
+                                                                int gender,
+                                                                string contactNumber, 
+                                                                List<Guid> rolesId, 
+                                                                CancellationToken cancellationToken)
         {
             User? existingUser = await _unitOfWork.Users.GetByEmailAsync(email);
             if (existingUser is not null)
@@ -78,7 +85,7 @@ namespace Identity.Application.CommandHandler
             var allRoles = await _unitOfWork.Roles.GetAllRolesAsync();
             List<Role> selectedRoles = allRoles.Where(r => rolesId.Contains(r.Id.Value)).ToList();
 
-            if (!selectedRoles.Any())
+            if (selectedRoles.Count == 0)
             {
                 return new AuthenticationResponse
                 {
@@ -88,7 +95,7 @@ namespace Identity.Application.CommandHandler
             }
 
 
-            User user = User.Create(name, email, passwordHash, selectedRoles);
+            User user = User.Create(name, email, passwordHash, selectedRoles,address,gender,contactNumber);
             await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

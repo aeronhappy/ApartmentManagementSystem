@@ -4,7 +4,14 @@ namespace Identity.Application.Commands
 {
     public interface IAuthenticationCommands
     {
-        Task<AuthenticationResponse> RegisterAsync(string name, string email, string password, List<Guid> rolesId, CancellationToken cancellationToken);
+        Task<AuthenticationResponse> RegisterAsync(string name, 
+                                                   string email, 
+                                                   string password,
+                                                   string address,
+                                                   int gender,
+                                                   string contactNumber,
+                                                   List<Guid> rolesId, 
+                                                   CancellationToken cancellationToken);
         Task<AuthenticationResponse> SignInAsync(string email, string password, CancellationToken cancellationToken);
 
     }

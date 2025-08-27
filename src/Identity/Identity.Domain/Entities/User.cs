@@ -30,14 +30,13 @@ namespace Identity.Domain.Entities
             Roles = roles;
             CreatedAt = DateTime.UtcNow;
             LastLogin = DateTime.UtcNow;
-
         }
 
         //factory method to create a new user
-        public static User Create(string name, string email, string passwordHash, List<Role> roles)
+        public static User Create(string name, string email, string passwordHash, List<Role> roles, string address, int gender,string contactNumber ) 
         {
             var user = new User(new UserId(Guid.NewGuid()), name, email, passwordHash, roles);
-            user.RaiseDomainEvent(new UserCreatedEvent(user));
+            user.RaiseDomainEvent(new UserCreatedEvent(user,address,gender,contactNumber));
             return user;
         }
 

@@ -21,9 +21,9 @@ namespace Property.Application.CommandHandler
         }
 
 
-        public async Task<Result<OwnerResponse>> AddOwnerAsync(string email, string name, string address, string contactNumber, CancellationToken cancellationToken)
+        public async Task<Result<OwnerResponse>> AddOwnerAsync(Guid id, string email, string name, string address, string contactNumber, CancellationToken cancellationToken)
         {
-            var owner = Owner.Create(email,name, address, contactNumber);
+            var owner = Owner.Create(id,email,name, address, contactNumber);
             var ownerResponse = _mapper.Map<OwnerResponse>(owner);
             await _unitOfWork.Owners.AddOwnerAsync(owner);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

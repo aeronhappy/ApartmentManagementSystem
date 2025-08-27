@@ -38,13 +38,13 @@ namespace Leasing.Controller
             return Ok(tenantResponse);
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult<TenantResponse>> CreateTenant([FromBody] CreateTenantRequest request)
-        {
-            var response =
-                await _tenantCommands.AddTenantAsync(request.Email,request.Name, request.Address,request.Gender, request.ContactNumber, HttpContext.RequestAborted);
-            return Ok(response);
-        }
+        //[HttpPost("create")]
+        //public async Task<ActionResult<TenantResponse>> CreateTenant([FromBody] CreateTenantRequest request)
+        //{
+        //    var response =
+        //        await _tenantCommands.AddTenantAsync(request.Email,request.Name, request.Address,request.Gender, request.ContactNumber, HttpContext.RequestAborted);
+        //    return Ok(response);
+        //}
 
         [HttpDelete("{tenantId}")]
         public async Task<ActionResult> DeleteTenant(Guid tenantId)

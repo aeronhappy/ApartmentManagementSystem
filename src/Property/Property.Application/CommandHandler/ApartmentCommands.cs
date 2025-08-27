@@ -1,5 +1,6 @@
 ﻿using ApartmentManagementSystem.SharedKernel.Enum;
 using ApartmentManagementSystem.SharedKernel.Errors;
+using ApartmentManagementSystem.Contracts.Services;
 using AutoMapper;
 using FluentResults;
 using Property.Application.Commands;
@@ -14,11 +15,13 @@ namespace Property.Application.CommandHandler
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IDomainEventPublisher _domainEventPublisher;
 
-        public ApartmentCommands(IUnitOfWork unitOfWork, IMapper mapper)
+        public ApartmentCommands(IUnitOfWork unitOfWork, IMapper mapper, IDomainEventPublisher domainEventPublisher)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _domainEventPublisher = domainEventPublisher;
         }
 
 
@@ -36,6 +39,8 @@ namespace Property.Application.CommandHandler
             building.AddApartment(apartment);
             await _unitOfWork.Apartments.AddApartmentAsync(apartment);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _domainEventPublisher.PublishAsync(apartment.DomainEvents, default);
+
             return Result.Ok(apartmentResponse);
         }
 
@@ -84,13 +89,13 @@ namespace Property.Application.CommandHandler
             return Result.Ok();
         }
 
-        public async Task<Result> AddLeaseAgreementAsync(Guid apartmentId, Guid leaseAgreementId, CancellationToken cancellationToken)
+        public async Task<Result> AddLeaseAgreementAsync(Guid apartmentId, LeaseAgreement leaseAgreement, CancellationToken cancellationToken)
         {
             Apartment? apartment = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
             if (apartment is null)
                 return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
 
-            apartment.AddLeaseAgreement(new LeaseAgreementId(leaseAgreementId));
+            apartment.AddLeaseAgreement(leaseAgreement);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Result.Ok();
         }

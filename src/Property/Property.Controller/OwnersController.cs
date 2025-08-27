@@ -38,13 +38,13 @@ namespace Property.Controller
             return Ok(ownerResponse);
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult<OwnerResponse>> CreateOwner([FromBody] CreateOwnerRequest request)
-        {
-            var response =
-                await _ownerCommands.AddOwnerAsync(request.Email,request.Name, request.Address, request.ContactNumber, HttpContext.RequestAborted);
-            return Ok(response);
-        }
+        //[HttpPost("create")]
+        //public async Task<ActionResult<OwnerResponse>> CreateOwner([FromBody] CreateOwnerRequest request)
+        //{
+        //    var response =
+        //        await _ownerCommands.AddOwnerAsync(request.Email,request.Name, request.Address, request.ContactNumber, HttpContext.RequestAborted);
+        //    return Ok(response);
+        //}
 
         [HttpDelete("{ownerId}")]
         public async Task<ActionResult> DeleteBuidling(Guid ownerId)
