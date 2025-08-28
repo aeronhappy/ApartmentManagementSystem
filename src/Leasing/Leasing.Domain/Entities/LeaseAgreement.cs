@@ -14,6 +14,7 @@ namespace Leasing.Domain.Entities
         public Apartment Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
         public LeaseTerm LeaseTermInMonths { get; private set; }
+        public List<Invoice> Invoices { get; set; } = [];
         public DateTime DateCreated { get; private set; }
         public DateTime DateStart { get; private set; }
         public DateTime DateEnd { get; private set; }
@@ -36,6 +37,14 @@ namespace Leasing.Domain.Entities
             DateCreated = DateTime.UtcNow;
             DateStart = dateStart;
             LeaseTermInMonths = leaseTerm;
+
+            for (int i = 0; i < (int)LeaseTermInMonths; i++)
+            {
+                var invoiceDate = DateStart.AddMonths(i);
+                var invoice = Invoice.Create(Id.Value, invoiceDate, monthlyRent);
+                Invoices.Add(invoice);
+            }
+
             DateEnd = dateStart.AddMonths((int)LeaseTermInMonths);
             MonthlyRent = monthlyRent;
             EnsureStatusUpToDate(now ?? DateTime.UtcNow);

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Leasing.Infrastracture.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialLeasingMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,9 +26,7 @@ namespace Leasing.Infrastracture.Migrations
                     Number = table.Column<int>(type: "int", nullable: false),
                     Floor = table.Column<int>(type: "int", nullable: false),
                     AreaSqm = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,6 +84,35 @@ namespace Leasing.Infrastracture.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Invoices",
+                schema: "Leasing",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LeaseAgreementId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DatePeriod = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invoices_LeaseAgreements_LeaseAgreementId",
+                        column: x => x.LeaseAgreementId,
+                        principalSchema: "Leasing",
+                        principalTable: "LeaseAgreements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_LeaseAgreementId",
+                schema: "Leasing",
+                table: "Invoices",
+                column: "LeaseAgreementId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_LeaseAgreements_ApartmentId",
                 schema: "Leasing",
@@ -102,6 +129,10 @@ namespace Leasing.Infrastracture.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Invoices",
+                schema: "Leasing");
+
             migrationBuilder.DropTable(
                 name: "LeaseAgreements",
                 schema: "Leasing");

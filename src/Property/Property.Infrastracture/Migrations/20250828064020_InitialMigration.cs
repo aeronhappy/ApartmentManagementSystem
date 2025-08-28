@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Property.Infrastracture.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialPropertyMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,7 @@ namespace Property.Infrastracture.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MonthlyRent = table.Column<double>(type: "float", nullable: false),
                     LeaseTermInMonths = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -95,7 +96,8 @@ namespace Property.Infrastracture.Migrations
                         column: x => x.LeaseAgreementId,
                         principalSchema: "Property",
                         principalTable: "LeaseAgreements",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Apartments_Owners_OwnerId",
                         column: x => x.OwnerId,
@@ -114,7 +116,9 @@ namespace Property.Infrastracture.Migrations
                 name: "IX_Apartments_LeaseAgreementId",
                 schema: "Property",
                 table: "Apartments",
-                column: "LeaseAgreementId");
+                column: "LeaseAgreementId",
+                unique: true,
+                filter: "[LeaseAgreementId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Apartments_OwnerId",

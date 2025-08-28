@@ -24,6 +24,10 @@ namespace Leasing.Infrastracture.Data.Configuration
                 .WithMany(t => t.LeaseAgreements)
                 .HasForeignKey(l => l.TenantId);
 
+            leaseAgreement.HasMany(l => l.Invoices)
+                .WithOne(i => i.LeaseAgreement)
+                .HasForeignKey(i => i.LeaseAgreementId);
+
         }
     }
 }

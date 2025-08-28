@@ -48,18 +48,36 @@ namespace Leasing.Infrastracture.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("OwnerName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Apartments", "Leasing");
+                });
+
+            modelBuilder.Entity("Leasing.Domain.Entities.Invoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("DatePeriod")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LeaseAgreementId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaseAgreementId");
+
+                    b.ToTable("Invoices", "Leasing");
                 });
 
             modelBuilder.Entity("Leasing.Domain.Entities.LeaseAgreement", b =>
@@ -129,6 +147,17 @@ namespace Leasing.Infrastracture.Migrations
                     b.ToTable("Tenants", "Leasing");
                 });
 
+            modelBuilder.Entity("Leasing.Domain.Entities.Invoice", b =>
+                {
+                    b.HasOne("Leasing.Domain.Entities.LeaseAgreement", "LeaseAgreement")
+                        .WithMany("Invoices")
+                        .HasForeignKey("LeaseAgreementId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("LeaseAgreement");
+                });
+
             modelBuilder.Entity("Leasing.Domain.Entities.LeaseAgreement", b =>
                 {
                     b.HasOne("Leasing.Domain.Entities.Apartment", "Apartment")
@@ -146,6 +175,11 @@ namespace Leasing.Infrastracture.Migrations
                     b.Navigation("Apartment");
 
                     b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("Leasing.Domain.Entities.LeaseAgreement", b =>
+                {
+                    b.Navigation("Invoices");
                 });
 
             modelBuilder.Entity("Leasing.Domain.Entities.Tenant", b =>

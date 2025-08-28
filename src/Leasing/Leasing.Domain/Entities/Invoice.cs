@@ -1,44 +1,37 @@
-﻿using Leasing.Domain.ValueObjects;
-using System.ComponentModel.DataAnnotations;
+﻿using ApartmentManagementSystem.SharedKernel.Enum;
+using Leasing.Domain.ValueObjects;
 
 namespace Leasing.Domain.Entities
 {
     public class Invoice
     {
         public InvoiceId Id { get; set; } = null!;
-        public LeaseAgreementId LeaseAgreementId { get; set; }
-        public LeaseAgreement LeaseAgreement { get; set; }
-        public DateTime DatePeriod { get; set; }
+        public LeaseAgreementId LeaseAgreementId { get; set; } = null!;
+        public LeaseAgreement LeaseAgreement { get; set; } = null!;
+        public DateTime DatePeriod { get; set; } 
         public double Amount { get; set; }
-        public double Amount { get; set; }
+        public InvoiceStatus Status { get; set; }
 
+        //public PaymentReceipt? PaymentReceipt { get; set; }
 
         protected Invoice() { }
 
-        // Private Tenantconstructor
-        private Invoice(TenantId id,string email, string name, string address,int gender, string contactNumber)
+        // Private Invoiceconstructor
+        private Invoice(InvoiceId id, LeaseAgreementId leaseAgreementId , DateTime datePeriod, double amount)
         {
             Id = id;
-            Email = email;
-            Name = name;
-            Address = address;
-            Gender = gender;
-            ContactNumber = contactNumber;
+            LeaseAgreementId = leaseAgreementId;
+            DatePeriod = datePeriod;
+            Amount = amount;
+            Status = InvoiceStatus.Open;
         }
 
 
-        // Factory method to create a Tenant
-        public static Invoice Create(Guid id,string email ,string name, string address,int gender, string contactNumber)
+        // Factory method to create a Invoice
+        public static Invoice Create(Guid leaseAgreementId, DateTime datePeriod ,double amount)
         {
-            var tenant = new Invoice(new TenantId(id), email,  name, address, gender, contactNumber);
-            return tenant;
-        }
-
-        public void Update(string name, string address, string contactNumber)
-        {
-            Name = name;
-            Address = address;
-            ContactNumber = contactNumber;
+            var invoice = new Invoice(new InvoiceId(Guid.NewGuid()), new LeaseAgreementId(leaseAgreementId),  datePeriod, amount);
+            return invoice;
         }
 
     }
