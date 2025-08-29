@@ -32,11 +32,11 @@ namespace Leasing.Controller
         [HttpGet("{leaseAgreementId}")]
         public async Task<ActionResult<LeaseAgreementResponse>> GetLeaseAgreementById(Guid leaseAgreementId)
         {
-            var leaseAgreementResponse = await _leasingQueries.GetLeaseAgreementResponseByIdAsync(leaseAgreementId);
-            if (leaseAgreementResponse is null)
+            var response = await _leasingQueries.GetLeaseAgreementResponseByIdAsync(leaseAgreementId);
+            if (response is null)
                 return NotFound();
 
-            return Ok(leaseAgreementResponse);
+            return Ok(response);
         }
 
         [HttpPost("create")]

@@ -1,11 +1,11 @@
 ﻿namespace ApartmentManagementSystem.SharedKernel.Enum
 {
-    public enum LeaseStatus 
+    public enum PaymentMethod
     { 
-        Created, 
-        Active, 
-        Ended, 
-        Terminated 
+        Cash, 
+        Gcash, 
+        Paymaya,
+        BankTransfer
     }
 
 }

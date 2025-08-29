@@ -24,5 +24,6 @@ namespace Leasing.Infrastracture.Data
         public DbSet<LeaseAgreement> LeaseAgreements { get; set; }
         public DbSet<Apartment> Apartments { get; set;}
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
     }
 }

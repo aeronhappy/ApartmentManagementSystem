@@ -13,6 +13,8 @@ namespace Leasing.Infrastracture.MappingProfile
                 .ForMember(u => u.Id, option => option.MapFrom(u => u.Id.Value));
             CreateMap<LeaseAgreement, LeaseAgreementResponseWithoutTenant>()
                .ForMember(u => u.Id, option => option.MapFrom(u => u.Id.Value));
+            CreateMap<LeaseAgreement, LeaseAgreementResponseWithoutInvoices>()
+               .ForMember(u => u.Id, option => option.MapFrom(u => u.Id.Value));
 
         }
     }

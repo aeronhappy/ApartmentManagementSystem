@@ -31,11 +31,11 @@ namespace Leasing.Controller
         [HttpGet("{tenantId}")]
         public async Task<ActionResult<TenantResponse>> GetTenantById(Guid tenantId)
         {
-            var tenantResponse = await _tenantQueries.GetTenantResponseByIdAsync(tenantId);
-            if (tenantResponse is null)
+            var response = await _tenantQueries.GetTenantResponseByIdAsync(tenantId);
+            if (response is null)
                 return NotFound();
 
-            return Ok(tenantResponse);
+            return Ok(response);
         }
 
         //[HttpPost("create")]

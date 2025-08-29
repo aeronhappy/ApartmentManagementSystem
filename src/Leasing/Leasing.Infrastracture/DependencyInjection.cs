@@ -28,11 +28,15 @@ namespace Leasing.Infrastracture
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<ILeasingRepository, LeasingRepository>();
             services.AddScoped<IApartmentRepository, ApartmentRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<IPaymentReceiptRepository, PaymentReceiptRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             services.AddScoped<ITenantQueries, TenantQueries>();
             services.AddScoped<ILeasingQueries, LeasingQueries>();
+            services.AddScoped<IInvoiceQueries, InvoiceQueries>();
+            services.AddScoped<IPaymentReceiptQueries, PaymentReceiptQueries>();
 
 
             return services;

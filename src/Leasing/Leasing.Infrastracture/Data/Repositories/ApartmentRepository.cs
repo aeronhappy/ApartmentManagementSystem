@@ -1,7 +1,6 @@
 ﻿using Leasing.Domain.Entities;
 using Leasing.Domain.Repositories;
 using Leasing.Domain.ValueObjects;
-using MediatR;
 
 namespace Leasing.Infrastracture.Data.Repositories
 {

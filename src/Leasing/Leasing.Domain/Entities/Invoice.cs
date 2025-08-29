@@ -5,19 +5,17 @@ namespace Leasing.Domain.Entities
 {
     public class Invoice
     {
-        public InvoiceId Id { get; set; } = null!;
-        public LeaseAgreementId LeaseAgreementId { get; set; } = null!;
-        public LeaseAgreement LeaseAgreement { get; set; } = null!;
-        public DateTime DatePeriod { get; set; } 
-        public double Amount { get; set; }
-        public InvoiceStatus Status { get; set; }
-
-        //public PaymentReceipt? PaymentReceipt { get; set; }
+        public InvoiceId Id { get; private set; } = null!;
+        public LeaseAgreementId LeaseAgreementId { get; private set; } = null!;
+        public LeaseAgreement LeaseAgreement { get; private set; } = null!;
+        public DateTime DatePeriod { get; private set; }
+        public double Amount { get; private set; }
+        public InvoiceStatus Status { get; private set; }
+        public PaymentReceipt? PaymentReceipt { get; private set; }
 
         protected Invoice() { }
 
-        // Private Invoiceconstructor
-        private Invoice(InvoiceId id, LeaseAgreementId leaseAgreementId , DateTime datePeriod, double amount)
+        private Invoice(InvoiceId id, LeaseAgreementId leaseAgreementId, DateTime datePeriod, double amount)
         {
             Id = id;
             LeaseAgreementId = leaseAgreementId;
@@ -26,13 +24,22 @@ namespace Leasing.Domain.Entities
             Status = InvoiceStatus.Open;
         }
 
-
-        // Factory method to create a Invoice
-        public static Invoice Create(Guid leaseAgreementId, DateTime datePeriod ,double amount)
+        public static Invoice Create(Guid leaseAgreementId, DateTime datePeriod, double amount)
         {
-            var invoice = new Invoice(new InvoiceId(Guid.NewGuid()), new LeaseAgreementId(leaseAgreementId),  datePeriod, amount);
-            return invoice;
+            return new Invoice(new InvoiceId(Guid.NewGuid()), new LeaseAgreementId(leaseAgreementId), datePeriod, amount);
         }
 
+        public void AttachReceipt(PaymentReceipt receipt)
+        {
+           
+            if (receipt is null) 
+                throw new ArgumentNullException(nameof(receipt));
+
+            if (receipt.InvoiceId.Value != Id.Value)
+                throw new InvalidOperationException("Receipt.InvoiceId must match Invoice.Id.");
+
+            PaymentReceipt = receipt;
+            Status = InvoiceStatus.Paid;
+        }
     }
 }

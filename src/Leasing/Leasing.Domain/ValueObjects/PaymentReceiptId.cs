@@ -1,5 +1,5 @@
 ﻿namespace Leasing.Domain.ValueObjects
 {
-    public record InvoiceId(Guid Value);
+    public record PaymentReceiptId(Guid Value);
 
 }

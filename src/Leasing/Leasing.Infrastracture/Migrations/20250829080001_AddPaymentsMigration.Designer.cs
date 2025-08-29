@@ -4,6 +4,7 @@ using Leasing.Infrastracture.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Leasing.Infrastracture.Migrations
 {
     [DbContext(typeof(LeasingDbContext))]
-    partial class LeasingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250829080001_AddPaymentsMigration")]
+    partial class AddPaymentsMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,12 +73,19 @@ namespace Leasing.Infrastracture.Migrations
                     b.Property<Guid>("LeaseAgreementId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("PaymentReceiptId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LeaseAgreementId");
+
+                    b.HasIndex("PaymentReceiptId")
+                        .IsUnique()
+                        .HasFilter("[PaymentReceiptId] IS NOT NULL");
 
                     b.ToTable("Invoices", "Leasing");
                 });
@@ -141,9 +151,6 @@ namespace Leasing.Infrastracture.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId")
-                        .IsUnique();
-
                     b.ToTable("PaymentReceipts", "Leasing");
                 });
 
@@ -184,7 +191,14 @@ namespace Leasing.Infrastracture.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Leasing.Domain.Entities.PaymentReceipt", "PaymentReceipt")
+                        .WithOne("Invoice")
+                        .HasForeignKey("Leasing.Domain.Entities.Invoice", "PaymentReceiptId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("LeaseAgreement");
+
+                    b.Navigation("PaymentReceipt");
                 });
 
             modelBuilder.Entity("Leasing.Domain.Entities.LeaseAgreement", b =>
@@ -206,25 +220,15 @@ namespace Leasing.Infrastracture.Migrations
                     b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("Leasing.Domain.Entities.PaymentReceipt", b =>
-                {
-                    b.HasOne("Leasing.Domain.Entities.Invoice", "Invoice")
-                        .WithOne("PaymentReceipt")
-                        .HasForeignKey("Leasing.Domain.Entities.PaymentReceipt", "InvoiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Invoice");
-                });
-
-            modelBuilder.Entity("Leasing.Domain.Entities.Invoice", b =>
-                {
-                    b.Navigation("PaymentReceipt");
-                });
-
             modelBuilder.Entity("Leasing.Domain.Entities.LeaseAgreement", b =>
                 {
                     b.Navigation("Invoices");
+                });
+
+            modelBuilder.Entity("Leasing.Domain.Entities.PaymentReceipt", b =>
+                {
+                    b.Navigation("Invoice")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Leasing.Domain.Entities.Tenant", b =>

@@ -13,6 +13,8 @@ namespace Leasing.Application
             // Register Services
             services.AddScoped<ITenantCommands, TenantCommands>();
             services.AddScoped<ILeasingCommands, LeasingCommands>();
+            services.AddScoped<IInvoiceCommands, InvoiceCommands>();
+            services.AddScoped<IPaymentReceiptCommands, PaymentReceiptCommands>();
 
             return services;
         }
