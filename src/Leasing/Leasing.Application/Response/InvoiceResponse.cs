@@ -13,6 +13,14 @@ namespace Leasing.Application.Response
         public PaymentReceiptResponseWithoutInvoice? PaymentReceipt { get; set; }
     }
 
+    public class InvoiceResponseWithoutLeaseAgreement
+    {
+        public Guid Id { get; set; }
+        public DateTime DatePeriod { get; set; }
+        public double Amount { get; set; }
+        public InvoiceStatus Status { get; set; }
+        public PaymentReceiptResponseWithoutInvoice? PaymentReceipt { get; set; }
+    }
     public class InvoiceResponseWithoutPaymentReceipt
     {
         public Guid Id { get; set; }

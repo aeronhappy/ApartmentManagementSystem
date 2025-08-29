@@ -11,6 +11,8 @@ namespace Leasing.Infrastracture.MappingProfile
         {
             CreateMap<Invoice, InvoiceResponse>()
                 .ForMember(o => o.Id, option => option.MapFrom(o => o.Id.Value));
+            CreateMap<Invoice, InvoiceResponseWithoutLeaseAgreement>()
+              .ForMember(o => o.Id, option => option.MapFrom(o => o.Id.Value));
             CreateMap<Invoice, InvoiceResponseWithoutPaymentReceipt>()
               .ForMember(o => o.Id, option => option.MapFrom(o => o.Id.Value));
         }
