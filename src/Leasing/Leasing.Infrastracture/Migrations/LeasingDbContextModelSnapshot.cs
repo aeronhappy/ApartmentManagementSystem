@@ -152,20 +152,9 @@ namespace Leasing.Infrastracture.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -196,7 +185,7 @@ namespace Leasing.Infrastracture.Migrations
                         .IsRequired();
 
                     b.HasOne("Leasing.Domain.Entities.Tenant", "Tenant")
-                        .WithMany("LeaseAgreements")
+                        .WithMany()
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -225,11 +214,6 @@ namespace Leasing.Infrastracture.Migrations
             modelBuilder.Entity("Leasing.Domain.Entities.LeaseAgreement", b =>
                 {
                     b.Navigation("Invoices");
-                });
-
-            modelBuilder.Entity("Leasing.Domain.Entities.Tenant", b =>
-                {
-                    b.Navigation("LeaseAgreements");
                 });
 #pragma warning restore 612, 618
         }

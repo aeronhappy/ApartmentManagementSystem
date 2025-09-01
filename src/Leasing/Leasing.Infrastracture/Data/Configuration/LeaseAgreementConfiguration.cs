@@ -19,11 +19,6 @@ namespace Leasing.Infrastracture.Data.Configuration
             leaseAgreement.Property(u => u.ApartmentId)
                 .HasConversion(u => u!.Value, value => new ApartmentId(value));
 
-            leaseAgreement
-                .HasOne(l => l.Tenant)
-                .WithMany(t => t.LeaseAgreements)
-                .HasForeignKey(l => l.TenantId);
-
             leaseAgreement.HasMany(l => l.Invoices)
                 .WithOne(i => i.LeaseAgreement)
                 .HasForeignKey(i => i.LeaseAgreementId);

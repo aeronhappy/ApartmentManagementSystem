@@ -6,7 +6,7 @@ namespace Leasing.Application.Response
     public class LeaseAgreementResponse
     {
         public Guid Id { get; private set; }
-        public TenantResponseWithoutLeaseAgreement Tenant { get; private set; } = null!;
+        public TenantResponse Tenant { get; private set; } = null!;
         public ApartmentResponse Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
         public LeaseTerm LeaseTermInMonths { get; private set; }
@@ -32,7 +32,7 @@ namespace Leasing.Application.Response
     public class LeaseAgreementResponseWithoutInvoices
     {
         public Guid Id { get; private set; }
-        public TenantResponseWithoutLeaseAgreement Tenant { get; private set; } = null!;
+        public TenantResponse Tenant { get; private set; } = null!;
         public ApartmentResponse Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
         public LeaseTerm LeaseTermInMonths { get; private set; }

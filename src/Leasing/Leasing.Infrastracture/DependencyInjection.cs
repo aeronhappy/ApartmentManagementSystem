@@ -33,7 +33,6 @@ namespace Leasing.Infrastracture
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
-            services.AddScoped<ITenantQueries, TenantQueries>();
             services.AddScoped<ILeasingQueries, LeasingQueries>();
             services.AddScoped<IInvoiceQueries, InvoiceQueries>();
             services.AddScoped<IPaymentReceiptQueries, PaymentReceiptQueries>();

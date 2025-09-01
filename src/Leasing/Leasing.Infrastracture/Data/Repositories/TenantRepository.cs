@@ -1,6 +1,7 @@
 ﻿using Leasing.Domain.Entities;
 using Leasing.Domain.Repositories;
 using Leasing.Domain.ValueObjects;
+using MediatR;
 
 namespace Leasing.Infrastracture.Data.Repositories
 {
@@ -18,7 +19,7 @@ namespace Leasing.Infrastracture.Data.Repositories
             return await _context.Tenants.FindAsync(id);
         }
 
-        public  async Task AddTenantAsync(Tenant tenant)
+        public async Task AddTenantAsync(Tenant tenant)
         {
             await _context.Tenants.AddAsync(tenant);
         }

@@ -13,7 +13,6 @@ namespace Property.Application
             // Register Services
             services.AddScoped<IBuildingCommands, BuildingCommands>();
             services.AddScoped<IApartmentCommands, ApartmentCommands>();
-            services.AddScoped<IOwnerCommands, OwnerCommands>();
 
             return services;
         }

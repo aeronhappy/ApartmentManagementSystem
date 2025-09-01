@@ -9,6 +9,14 @@ using Identity.Infrastracture;
 using Property.Application;
 using Property.Controller;
 using Property.Infrastracture;
+//Ownership
+using Ownership.Application;
+using Ownership.Controller;
+using Ownership.Infrastracture;
+//Tenancy
+using Tenancy.Application;
+using Tenancy.Controller;
+using Tenancy.Infrastracture;
 //Leasing
 using Leasing.Application;
 using Leasing.Controller;
@@ -21,6 +29,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
      .AddApplicationPart(typeof(AuthenticationController).Assembly)
      .AddApplicationPart(typeof(BuildingsController).Assembly)
+     .AddApplicationPart(typeof(LeasingsController).Assembly)
+     .AddApplicationPart(typeof(OwnersController).Assembly)
      .AddApplicationPart(typeof(TenantsController).Assembly);
 
 
@@ -70,6 +80,8 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Identity.Application.AssemblyReference).Assembly);
     cfg.RegisterServicesFromAssembly(typeof(Property.Application.AssemblyReference).Assembly);
     cfg.RegisterServicesFromAssembly(typeof(Leasing.Application.AssemblyReference).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(Ownership.Application.AssemblyReference).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(Tenancy.Application.AssemblyReference).Assembly);
 });
 
 //Register Dependency Injection
@@ -80,10 +92,15 @@ builder.Services.AddIdentityApplication();
 //Property
 builder.Services.AddPropertyInfrastructure(builder.Configuration);
 builder.Services.AddPropertyApplication();
+//Ownership
+builder.Services.AddOwnershipInfrastructure(builder.Configuration);
+builder.Services.AddOwnershipApplication();
+//Tenancy
+builder.Services.AddTenancyInfrastructure(builder.Configuration);
+builder.Services.AddTenancyApplication();
 //Leasing
 builder.Services.AddLeasingInfrastructure(builder.Configuration);
 builder.Services.AddLeasingApplication();
-
 
 
 builder.Services.AddScoped<IEventBus, EventBus>();

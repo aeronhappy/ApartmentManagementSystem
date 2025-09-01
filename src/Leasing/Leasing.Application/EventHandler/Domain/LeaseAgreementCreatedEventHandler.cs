@@ -23,6 +23,7 @@ namespace Leasing.Application.EventHandler.Domain
                     notification.LeaseAgreement.TenantId.Value,
                     notification.LeaseAgreement.Tenant.Name,
                     notification.LeaseAgreement.ApartmentId.Value,
+                    notification.LeaseAgreement.Apartment.Name,
                     notification.LeaseAgreement.MonthlyRent,
                     notification.LeaseAgreement.LeaseTermInMonths,
                     notification.LeaseAgreement.DateCreated,

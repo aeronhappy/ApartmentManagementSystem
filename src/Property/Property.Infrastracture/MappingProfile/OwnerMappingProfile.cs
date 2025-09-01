@@ -11,8 +11,6 @@ namespace Property.Infrastracture.MappingProfile
         {
             CreateMap<Owner, OwnerResponse>()
                 .ForMember(o => o.Id, option => option.MapFrom(o => o.Id.Value));
-            CreateMap<Owner, OwnerResponseWithoutApartment>()
-                .ForMember(o => o.Id, option => option.MapFrom(o => o.Id.Value));
         }
     }
 }

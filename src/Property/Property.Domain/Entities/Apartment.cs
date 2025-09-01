@@ -84,9 +84,12 @@ namespace Property.Domain.Entities
             BuildApartmentCode(Building.Name, floor, number);
         }
 
-        public void AssignOwner(OwnerId ownerId)
+        public void AssignOwner(Apartment apartment, OwnerId ownerId)
         {
+
             OwnerId = ownerId;
+            apartment.RaiseDomainEvent(new AssignedOwnerToApartmentEvent(apartment, ownerId.Value));
+
         }
 
         public void AddLeaseAgreement(LeaseAgreement leaseAgreement)

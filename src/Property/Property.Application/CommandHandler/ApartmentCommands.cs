@@ -83,9 +83,9 @@ namespace Property.Application.CommandHandler
                 return Result.Fail(new EntityNotFoundError($"No Owner = {ownerId} found"));
 
 
-            apartment.AssignOwner(owner.Id);
-
+            apartment.AssignOwner(apartment,owner.Id);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _domainEventPublisher.PublishAsync(apartment.DomainEvents, default);
             return Result.Ok();
         }
 

@@ -15,8 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ApartmentManagementSystem.Contracts\ApartmentManagementSystem.Contracts.csproj" />
     <ProjectReference Include="..\..\ApartmentManagementSystem.SharedKernel\ApartmentManagementSystem.SharedKernel.csproj" />
-    <ProjectReference Include="..\..\Identity\Identity.IntegrationEvent\Identity.IntegrationEvent.csproj" />
     <ProjectReference Include="..\..\Leasing\Leasing.IntegrationEvent\Leasing.IntegrationEvent.csproj" />
+    <ProjectReference Include="..\..\Ownership\Ownership.IntegrationEvent\Ownership.IntegrationEvent.csproj" />
     <ProjectReference Include="..\Property.Domain\Property.Domain.csproj" />
     <ProjectReference Include="..\Property.IntegrationEvent\Property.IntegrationEvent.csproj" />
   </ItemGroup>

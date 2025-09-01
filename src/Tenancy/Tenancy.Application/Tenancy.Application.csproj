@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApartmentManagementSystem.Contracts\ApartmentManagementSystem.Contracts.csproj" />
+    <ProjectReference Include="..\..\ApartmentManagementSystem.SharedKernel\ApartmentManagementSystem.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\Identity\Identity.IntegrationEvent\Identity.IntegrationEvent.csproj" />
+    <ProjectReference Include="..\..\Leasing\Leasing.IntegrationEvent\Leasing.IntegrationEvent.csproj" />
+    <ProjectReference Include="..\Tenancy.Domain\Tenancy.Domain.csproj" />
+    <ProjectReference Include="..\Tenancy.IntegrationEvent\Tenancy.IntegrationEvent.csproj" />
+  </ItemGroup>
+
+</Project>

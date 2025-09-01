@@ -1,4 +1,4 @@
-﻿using ApartmentManagementSystem.SharedKernel.Entitites;
+﻿
 using ApartmentManagementSystem.SharedKernel.Enum;
 using ApartmentManagementSystem.SharedKernel.Errors;
 using AutoMapper;
@@ -8,7 +8,6 @@ using Leasing.Application.Response;
 using Leasing.Domain.Entities;
 using Leasing.Domain.Repositories;
 using Leasing.Domain.ValueObjects;
-using System.Net;
 
 namespace Leasing.Application.CommandHandler
 {
@@ -52,17 +51,6 @@ namespace Leasing.Application.CommandHandler
 
       
 
-        public async Task<Result> UpdateTenantAsync(Guid tenantId, string name, string address, string contactNumber, CancellationToken cancellationToken)
-        {
-            Tenant? tenant = await _unitOfWork.Tenants.GetTenantByIdAsync(new TenantId(tenantId));
-
-            if (tenant is null)
-                return Result.Fail(new EntityNotFoundError($"No Tenant = {tenantId} found"));
-
-            tenant.Update(name, address, contactNumber);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return Result.Ok();
-        }
+        
     }
 }

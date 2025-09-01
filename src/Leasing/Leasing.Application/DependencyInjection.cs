@@ -11,7 +11,6 @@ namespace Leasing.Application
         public static IServiceCollection AddLeasingApplication(this IServiceCollection services)
         {
             // Register Services
-            services.AddScoped<ITenantCommands, TenantCommands>();
             services.AddScoped<ILeasingCommands, LeasingCommands>();
             services.AddScoped<IInvoiceCommands, InvoiceCommands>();
             services.AddScoped<IPaymentReceiptCommands, PaymentReceiptCommands>();

@@ -130,14 +130,6 @@ namespace Property.Infrastracture.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -165,7 +157,7 @@ namespace Property.Infrastracture.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Property.Domain.Entities.Owner", "Owner")
-                        .WithMany("Apartments")
+                        .WithMany()
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Building");
@@ -184,11 +176,6 @@ namespace Property.Infrastracture.Migrations
                 {
                     b.Navigation("Apartment")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Property.Domain.Entities.Owner", b =>
-                {
-                    b.Navigation("Apartments");
                 });
 #pragma warning restore 612, 618
         }

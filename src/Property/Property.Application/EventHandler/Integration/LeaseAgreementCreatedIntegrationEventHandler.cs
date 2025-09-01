@@ -44,8 +44,6 @@ namespace Property.Application.EventHandler.Integration
                                                            leaseAgreement,
                                                             cancellationToken);
 
-            //await _unitOfWork.Leasings.AddLeaseAgreementAsync(leaseAgreement);
-            //await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

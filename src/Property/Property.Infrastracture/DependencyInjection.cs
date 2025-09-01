@@ -34,7 +34,6 @@ namespace Property.Infrastracture
 
             services.AddScoped<IBuildingQueries, BuildingQueries>();
             services.AddScoped<IApartmentQueries, ApartmentQueries>();
-            services.AddScoped<IOwnerQueries, OwnerQueries>();
 
 
             return services;

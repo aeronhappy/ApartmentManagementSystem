@@ -15,10 +15,6 @@ namespace Property.Infrastracture.Data.Configuration
                 .HasConversion(
                     o => o.Value,
                     value => new OwnerId(value));
-            owner.HasMany(b => b.Apartments)
-                .WithOne(u => u.Owner)
-                .HasForeignKey(u => u.OwnerId);
-
         }
     }
 }

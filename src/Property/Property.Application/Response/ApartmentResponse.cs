@@ -11,7 +11,7 @@ namespace Property.Application.Response
         public int Floor { get; private set; }
         public int AreaSqm { get; private set; }
         public ApartmentStatus Status { get; private set; } = ApartmentStatus.Vacant;
-        public OwnerResponseWithoutApartment? Owner { get; private set; } = null!;
+        public OwnerResponse? Owner { get; private set; } = null!;
         public LeaseAgreementResponseWihoutApartment? LeaseAgreement { get; private set; } = null!;
 
     }
@@ -24,7 +24,7 @@ namespace Property.Application.Response
         public int Floor { get; private set; }
         public int AreaSqm { get; private set; }
         public ApartmentStatus Status { get; private set; } = ApartmentStatus.Vacant;
-        public OwnerResponseWithoutApartment? Owner { get; private set; } = null!;
+        public OwnerResponse? Owner { get; private set; } = null!;
         public LeaseAgreementResponseWihoutApartment? LeaseAgreement { get; private set; } = null!;
     }
 }
