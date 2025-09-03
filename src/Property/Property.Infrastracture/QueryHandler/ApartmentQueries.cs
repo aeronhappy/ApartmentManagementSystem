@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using ApartmentManagementSystem.SharedKernel.Enum;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Property.Application.Queries;
@@ -30,7 +31,7 @@ namespace Property.Infrastracture.QueryHandler
             return apartmentResponse;
         }
 
-        public async Task<List<ApartmentResponse>> GetListOfApartmentResponseAsync(string searchText)
+        public async Task<List<ApartmentResponse>> GetListOfApartmentResponseAsync(string searchText, ApartmentStatus? apartmentStatus)
         {
 
             IQueryable<Apartment> query = _context.Apartments.AsQueryable();
@@ -44,6 +45,11 @@ namespace Property.Infrastracture.QueryHandler
                                     a.Number.ToString().ToLower().Contains(loweredSearchText) ||
                                     a.Floor.ToString().ToLower().Contains(loweredSearchText) ||
                                     a.Building.Name.ToLower().Contains(loweredSearchText));
+            }
+
+            if( apartmentStatus.HasValue)
+            {
+                query = query.Where(a => a.Status == apartmentStatus.Value);
             }
 
 

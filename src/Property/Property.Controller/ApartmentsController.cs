@@ -26,9 +26,9 @@ namespace Property.Controller
         }
 
         [HttpGet()]
-        public async Task<ActionResult<List<ApartmentResponse>>> GetListOfApartment([FromQuery] string searchText = "")
+        public async Task<ActionResult<List<ApartmentResponse>>> GetListOfApartment([FromQuery] ApartmentStatus? apartmentStatus,[FromQuery] string searchText = "")
         {
-            var listOfApartment = await _apartmentQueries.GetListOfApartmentResponseAsync(searchText);
+            var listOfApartment = await _apartmentQueries.GetListOfApartmentResponseAsync(searchText ,apartmentStatus);
             return Ok(listOfApartment);
         }
 

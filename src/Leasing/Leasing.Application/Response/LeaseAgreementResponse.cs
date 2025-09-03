@@ -1,5 +1,4 @@
 ﻿using ApartmentManagementSystem.SharedKernel.Enum;
-using Leasing.Domain.Entities;
 
 namespace Leasing.Application.Response
 {
@@ -9,7 +8,7 @@ namespace Leasing.Application.Response
         public TenantResponse Tenant { get; private set; } = null!;
         public ApartmentResponse Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
-        public LeaseTerm LeaseTermInMonths { get; private set; }
+        public int LeaseTermInMonths { get; private set; }
         public List<InvoiceResponseWithoutLeaseAgreement> Invoices { get; set; } = [];
         public DateTime DateCreated { get; private set; }
         public DateTime DateStart { get; private set; }
@@ -22,7 +21,7 @@ namespace Leasing.Application.Response
         public Guid Id { get; private set; }
         public ApartmentResponse Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
-        public LeaseTerm LeaseTermInMonths { get; private set; }
+        public int LeaseTermInMonths { get; private set; }
         public DateTime DateCreated { get; private set; }
         public DateTime DateStart { get; private set; }
         public DateTime DateEnd { get; private set; }
@@ -35,7 +34,7 @@ namespace Leasing.Application.Response
         public TenantResponse Tenant { get; private set; } = null!;
         public ApartmentResponse Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
-        public LeaseTerm LeaseTermInMonths { get; private set; }
+        public int LeaseTermInMonths { get; private set; }
         public DateTime DateCreated { get; private set; }
         public DateTime DateStart { get; private set; }
         public DateTime DateEnd { get; private set; }

@@ -13,7 +13,7 @@ namespace Leasing.Domain.Entities
         public ApartmentId ApartmentId { get; private set; } = null!;
         public Apartment Apartment { get; private set; } = null!;
         public double MonthlyRent { get; private set; }
-        public LeaseTerm LeaseTermInMonths { get; private set; }
+        public int LeaseTermInMonths { get; private set; }
         public List<Invoice> Invoices { get; set; } = [];
         public DateTime DateCreated { get; private set; }
         public DateTime DateStart { get; private set; }
@@ -21,13 +21,13 @@ namespace Leasing.Domain.Entities
         public LeaseStatus Status { get; private set; } = LeaseStatus.Created;
 
         protected LeaseAgreement() { }
-        
+
         private LeaseAgreement(
             LeaseAgreementId leaseAgreementId,
             TenantId tenantId,
             ApartmentId apartmentId,
             DateTime dateStart,
-            LeaseTerm leaseTerm,
+            int leaseTerm,
             double monthlyRent,
             DateTime? now = null)
         {
@@ -38,14 +38,14 @@ namespace Leasing.Domain.Entities
             DateStart = dateStart;
             LeaseTermInMonths = leaseTerm;
 
-            for (int i = 0; i < (int)LeaseTermInMonths; i++)
+            for (int i = 0; i < LeaseTermInMonths; i++)
             {
                 var invoiceDate = DateStart.AddMonths(i);
                 var invoice = Invoice.Create(Id.Value, invoiceDate, monthlyRent);
                 Invoices.Add(invoice);
             }
 
-            DateEnd = dateStart.AddMonths((int)LeaseTermInMonths);
+            DateEnd = dateStart.AddMonths(LeaseTermInMonths);
             MonthlyRent = monthlyRent;
             EnsureStatusUpToDate(now ?? DateTime.UtcNow);
         }
@@ -55,7 +55,7 @@ namespace Leasing.Domain.Entities
             TenantId tenantId,
             ApartmentId apartmentId,
             DateTime dateStart,
-            LeaseTerm leaseTerm,
+            int leaseTerm,
             double monthlyRent,
             DateTime? now = null)
         {
@@ -86,11 +86,37 @@ namespace Leasing.Domain.Entities
                 Status = LeaseStatus.Active;
         }
 
-     
+
         public void Terminate()
         {
             if (Status == LeaseStatus.Ended) return;
             Status = LeaseStatus.Terminated;
+
+            foreach(var item in Invoices)
+            {
+                if(item.Status == InvoiceStatus.Open)
+                {
+                    Invoices.Remove(item);
+                }
+            }
+        }
+
+        public void Renew(int leaseTerm)
+        {
+            if (Status == LeaseStatus.Terminated) return;
+
+     
+            var newLeastTerm = LeaseTermInMonths + leaseTerm;
+            for (int i = 0; i < LeaseTermInMonths; i++)
+            {
+                var invoiceDate = DateStart.AddMonths(LeaseTermInMonths + i);
+                var invoice = Invoice.Create(Id.Value, invoiceDate, MonthlyRent);
+                Invoices.Add(invoice);
+            }
+
+            LeaseTermInMonths = newLeastTerm;
+          
+
         }
     }
 }

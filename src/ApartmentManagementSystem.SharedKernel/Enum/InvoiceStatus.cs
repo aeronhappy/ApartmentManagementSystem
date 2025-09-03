@@ -3,6 +3,7 @@
     public enum InvoiceStatus
     {
         Open,
-        Paid
+        Paid,
+        Failed
     }
 }

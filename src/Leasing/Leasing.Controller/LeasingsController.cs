@@ -47,6 +47,23 @@ namespace Leasing.Controller
             return Ok(response);
         }
 
+        [HttpPost("terminate/{leaseAgreementId}")]
+        public async Task<ActionResult> TerminateLeaseAgreement(Guid leaseAgreementId)
+        {
+            var response =
+                await _leasingCommands.TerminateLeaseAgreementAsync(leaseAgreementId, HttpContext.RequestAborted);
+            return Ok(response);
+        }
+
+
+        [HttpPost("renew/{leaseAgreementId}")]
+        public async Task<ActionResult> RenewLeaseAgreement(Guid leaseAgreementId, [FromQuery] int leaseMonthToAdd)
+        {
+            var response =
+                await _leasingCommands.RenewLeaseAgreementAsync(leaseAgreementId,leaseMonthToAdd, HttpContext.RequestAborted);
+            return Ok(response);
+        }
+
         [HttpDelete("{leaseAgreementId}")]
         public async Task<ActionResult> DeleteLeaseAgreement(Guid leaseAgreementId)
         {

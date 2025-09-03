@@ -24,7 +24,7 @@ namespace Leasing.Application.CommandHandler
             _domainEventPublisher = domainEventPublisher;
         }
 
-        public async Task<Result<LeaseAgreementResponse>> CreateLeasingAsync(Guid tenantId, Guid apartmentId, DateTime dateStart,double monthlyRent, LeaseTerm leaseTerm, CancellationToken cancellationToken)
+        public async Task<Result<LeaseAgreementResponse>> CreateLeasingAsync(Guid tenantId, Guid apartmentId, DateTime dateStart, double monthlyRent, int leaseTerm, CancellationToken cancellationToken)
         {
             Tenant? tenant = await _unitOfWork.Tenants.GetTenantByIdAsync(new TenantId(tenantId));
 
@@ -36,7 +36,7 @@ namespace Leasing.Application.CommandHandler
                 return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
 
 
-            var leaseAgreement = LeaseAgreement.Create(new TenantId(tenantId),new ApartmentId(apartmentId),dateStart, leaseTerm,monthlyRent);
+            var leaseAgreement = LeaseAgreement.Create(new TenantId(tenantId), new ApartmentId(apartmentId), dateStart, leaseTerm, monthlyRent);
             var leaseAgreementResponse = _mapper.Map<LeaseAgreementResponse>(leaseAgreement);
 
             await _unitOfWork.Leasings.AddLeasingAsync(leaseAgreement);
@@ -45,7 +45,7 @@ namespace Leasing.Application.CommandHandler
             return Result.Ok(leaseAgreementResponse);
         }
 
-     
+
 
         public async Task<Result> DeleteLeasingAsync(Guid leaseAgreementId, CancellationToken cancellationToken)
         {
@@ -59,7 +59,28 @@ namespace Leasing.Application.CommandHandler
             return Result.Ok();
         }
 
+        public async Task<Result> TerminateLeaseAgreementAsync(Guid leaseAgreementId, CancellationToken cancellationToken)
+        {
+            LeaseAgreement? leaseAgreement = await _unitOfWork.Leasings.GetLeasingByIdAsync(new LeaseAgreementId(leaseAgreementId));
 
-       
+            if (leaseAgreement is null)
+                return Result.Fail(new EntityNotFoundError($"No Lease Agreement = {leaseAgreementId} found"));
+
+            leaseAgreement.Terminate();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return Result.Ok();
+        }
+
+        public async Task<Result> RenewLeaseAgreementAsync(Guid leaseAgreementId,int leastTerm, CancellationToken cancellationToken)
+        {
+            LeaseAgreement? leaseAgreement = await _unitOfWork.Leasings.GetLeasingByIdAsync(new LeaseAgreementId(leaseAgreementId));
+
+            if (leaseAgreement is null)
+                return Result.Fail(new EntityNotFoundError($"No Lease Agreement = {leaseAgreementId} found"));
+
+            leaseAgreement.Renew(leastTerm);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return Result.Ok();
+        }
     }
 }

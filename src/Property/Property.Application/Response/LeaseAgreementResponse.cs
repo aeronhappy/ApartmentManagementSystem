@@ -8,7 +8,7 @@ namespace Property.Application.Response
         public required Guid TenantId { get;  set; }
         public required string TenantName { get; set; }
         public double MonthlyRent { get;  set; }
-        public LeaseTerm LeaseTermInMonths { get;  set; }
+        public int LeaseTermInMonths { get;  set; }
         public DateTime DateCreated { get;  set; }
         public DateTime DateStart { get;  set; }
         public DateTime DateEnd { get;  set; }

@@ -10,7 +10,7 @@ namespace Tenancy.Domain.Entities
         public Guid ApartmentId { get; set; }
         public string ApartmentName { get; set; } = null!;
         public double MonthlyRent { get; set; }
-        public LeaseTerm LeaseTermInMonths { get; set; }
+        public int LeaseTermInMonths { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }

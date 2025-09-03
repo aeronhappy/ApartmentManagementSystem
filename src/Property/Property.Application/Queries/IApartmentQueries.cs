@@ -1,4 +1,5 @@
-﻿using Property.Application.Response;
+﻿using ApartmentManagementSystem.SharedKernel.Enum;
+using Property.Application.Response;
 
 namespace Property.Application.Queries
 {
@@ -6,7 +7,7 @@ namespace Property.Application.Queries
     {
 
         Task<ApartmentResponse?> GetApartmentResponseByIdAsync(Guid id);
-        Task<List<ApartmentResponse>> GetListOfApartmentResponseAsync(string searchText);
+        Task<List<ApartmentResponse>> GetListOfApartmentResponseAsync(string searchText,ApartmentStatus? apartmentStatus);
         Task<List<ApartmentResponse>> GetListOfApartmentResponseByBuildingAsync(string searchText, Guid buildingId);
     }
 }

@@ -11,7 +11,7 @@ namespace Leasing.IntegrationEvent
             Guid ApartmentId,
             string ApartmentName,
             double MonthlyRent, 
-            LeaseTerm LeaseTermInMonths,
+            int LeaseTermInMonths,
             DateTime DateCreated,DateTime 
             DateStart,
             DateTime DateEnd,
