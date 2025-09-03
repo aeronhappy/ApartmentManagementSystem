@@ -8,7 +8,7 @@
         public required string Address { get; set; }
         public int Gender { get; set; }
         public required string ContactNumber { get; set; }
-        public LeaseAgreementResponse? LeaseAgreement { get; set; }
+        public List<LeaseAgreementResponse> LeaseAgreements { get; set; } = [];
 
     }
 

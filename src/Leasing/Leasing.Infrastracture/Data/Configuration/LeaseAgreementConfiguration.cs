@@ -9,20 +9,24 @@ namespace Leasing.Infrastracture.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<LeaseAgreement> leaseAgreement)
         {
-            leaseAgreement.HasKey(u => u.Id);
-            leaseAgreement.Property(u => u.Id)
-                .HasConversion(u => u.Value, value => new LeaseAgreementId(value));
+            leaseAgreement.HasKey(l => l.Id);
 
-            leaseAgreement.Property(u => u.TenantId)
-                .HasConversion(u => u.Value, value => new TenantId(value));
+            leaseAgreement.Property(l => l.Id)
+                .HasConversion(o => o.Value, v => new LeaseAgreementId(v));
 
-            leaseAgreement.Property(u => u.ApartmentId)
-                .HasConversion(u => u!.Value, value => new ApartmentId(value));
+            leaseAgreement.Property(l => l.TenantId)
+                .HasConversion(o => o.Value, v => new TenantId(v)); 
+           
+            leaseAgreement.Property(l => l.ApartmentId)
+                .HasConversion(o => o.Value, v => new ApartmentId(v));
 
+    
             leaseAgreement.HasMany(l => l.Invoices)
                 .WithOne(i => i.LeaseAgreement)
-                .HasForeignKey(i => i.LeaseAgreementId);
+                .HasForeignKey(i => i.LeaseAgreementId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            leaseAgreement.ToTable("LeaseAgreements", "Leasing");
         }
     }
 }

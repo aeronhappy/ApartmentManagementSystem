@@ -6,7 +6,7 @@ namespace Property.IntegrationEvent
     public record AssignedOwnerToApartmentIntegrationEvent
         (
             Guid OwnerId,
-            Guid ApplicationId,
+            Guid ApartmentId,
             Guid BuildingId,
             string BuildingName,
             string Name,

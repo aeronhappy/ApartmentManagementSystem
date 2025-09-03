@@ -1,4 +1,5 @@
-﻿using Property.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Property.Domain.Entities;
 using Property.Domain.Repositories;
 using Property.Domain.ValueObjects;
 
@@ -15,7 +16,9 @@ namespace Property.Infrastracture.Data.Repositories
 
         public async Task<LeaseAgreement?> GetLeaseAgreementByIdAsync(LeaseAgreementId id)
         {
-            return await _context.LeaseAgreements.FindAsync(id);
+            return await _context.LeaseAgreements
+               .Include(b => b.Apartment)
+               .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task AddLeaseAgreementAsync(LeaseAgreement leaseAgreement)

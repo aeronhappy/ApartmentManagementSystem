@@ -8,6 +8,7 @@ namespace Ownership.Domain.Repositories
         Task<Owner?> GetOwnerByIdAsync(OwnerId id);
         Task AddOwnerAsync(Owner owner);
         Task AddUnitToOwnerAsync(OwnerId id, Apartment apartment);
+        Task RemoveOwnerToUnitAsync(ApartmentId apartmentId,OwnerId ownerId);
         Task DeleteOwnerAsync(OwnerId id);
     }
 }

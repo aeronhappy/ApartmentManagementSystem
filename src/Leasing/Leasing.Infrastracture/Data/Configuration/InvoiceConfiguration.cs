@@ -22,7 +22,6 @@ namespace Leasing.Infrastracture.Data.Configuration
                 .HasForeignKey(i => i.LeaseAgreementId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-    
             invoice.HasOne(i => i.PaymentReceipt)
                 .WithOne(r => r.Invoice)
                 .HasForeignKey<PaymentReceipt>(r => r.InvoiceId)

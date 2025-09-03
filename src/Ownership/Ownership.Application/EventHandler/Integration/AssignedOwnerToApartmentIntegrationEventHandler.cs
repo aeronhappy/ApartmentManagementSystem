@@ -25,7 +25,7 @@ namespace Ownership.Application.EventHandler.Integration
              var ownerId = new OwnerId(notification.OwnerId);
             Apartment apartment = new()
             {
-                Id = new ApartmentId(notification.ApplicationId),
+                Id = new ApartmentId(notification.ApartmentId),
                 BuildingId = notification.BuildingId,
                 BuildingName = notification.BuildingName,
                 Name = notification.Name,

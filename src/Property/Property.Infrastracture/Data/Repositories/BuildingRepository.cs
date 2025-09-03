@@ -1,4 +1,5 @@
-﻿using Property.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Property.Domain.Entities;
 using Property.Domain.Repositories;
 using Property.Domain.ValueObjects;
 
@@ -16,7 +17,9 @@ namespace Property.Infrastracture.Data.Repositories
 
         public async Task<Building?> GetBuildingByIdAsync(BuildingId id)
         {
-            return await _context.Buildings.FindAsync(id);
+            return await _context.Buildings
+                 .Include(b => b.Apartments)
+                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task AddBuildingAsync(Building building)

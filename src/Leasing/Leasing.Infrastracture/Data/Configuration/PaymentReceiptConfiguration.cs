@@ -17,7 +17,7 @@ namespace Leasing.Infrastracture.Data.Configuration
             paymentReceipt.Property(pr => pr.InvoiceId)
                 .HasConversion(o => o.Value, v => new InvoiceId(v));
 
-            // Optional but recommended for 1:1 uniqueness at DB level
+          
             paymentReceipt.HasIndex(pr => pr.InvoiceId).IsUnique();
 
             paymentReceipt.ToTable("PaymentReceipts", "Leasing");

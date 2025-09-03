@@ -86,10 +86,21 @@ namespace Property.Domain.Entities
 
         public void AssignOwner(Apartment apartment, OwnerId ownerId)
         {
+            if (OwnerId is not null)
+                throw new HasOwnerAlreadyException("This apartment has owner already.");
 
             OwnerId = ownerId;
             apartment.RaiseDomainEvent(new AssignedOwnerToApartmentEvent(apartment, ownerId.Value));
 
+        }
+
+        public void RemoveOwner(Apartment apartment, OwnerId ownerId)
+        {
+            if(OwnerId is null)
+                throw new NoOwnerException("You can't remove Owner in apartment that no owner.");
+
+            OwnerId = null;
+            apartment.RaiseDomainEvent(new RemoveOwnerToApartmentEvent(apartment, ownerId.Value));
         }
 
         public void AddLeaseAgreement(LeaseAgreement leaseAgreement)

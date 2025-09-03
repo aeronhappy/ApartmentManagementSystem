@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Property.Application.Queries;
 using Property.Application.Response;
+using Property.Domain.Entities;
 using Property.Domain.ValueObjects;
 using Property.Infrastracture.Data;
 
@@ -19,12 +20,6 @@ namespace Property.Infrastracture.QueryHandler
             _mapper = mapper;
         }
 
-
-        public async Task<List<ApartmentResponse>> GetListOfApartmentResponseAsync()
-        {
-            return await _context.Apartments.ProjectTo<ApartmentResponse>(_mapper.ConfigurationProvider).ToListAsync();
-        }
-
         public async Task<ApartmentResponse?> GetApartmentResponseByIdAsync(Guid id)
         {
             var apartmentResponse = await _context.Apartments
@@ -33,6 +28,51 @@ namespace Property.Infrastracture.QueryHandler
                .FirstOrDefaultAsync();
 
             return apartmentResponse;
+        }
+
+        public async Task<List<ApartmentResponse>> GetListOfApartmentResponseAsync(string searchText)
+        {
+
+            IQueryable<Apartment> query = _context.Apartments.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.Name.ToLower().Contains(loweredSearchText) ||
+                                    a.Number.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.Floor.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.Building.Name.ToLower().Contains(loweredSearchText));
+            }
+
+
+            return await query.OrderByDescending(q => q.Floor).OrderByDescending(q => q.Number)
+                              .ProjectTo<ApartmentResponse>(_mapper.ConfigurationProvider).ToListAsync();
+
+        }
+
+        public async Task<List<ApartmentResponse>> GetListOfApartmentResponseByBuildingAsync(string searchText,Guid buildingId)
+        {
+
+            IQueryable<Apartment> query = _context.Apartments.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.Name.ToLower().Contains(loweredSearchText) ||
+                                    a.Number.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.Floor.ToString().ToLower().Contains(loweredSearchText));
+            }
+
+           
+            query = query.Where(apartment => apartment.BuildingId.Value == buildingId);
+
+            return await query.OrderByDescending(q => q.Floor).OrderByDescending(q => q.Number)
+                              .ProjectTo<ApartmentResponse>(_mapper.ConfigurationProvider).ToListAsync();
+
         }
     }
 }

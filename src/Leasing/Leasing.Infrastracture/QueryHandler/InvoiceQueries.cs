@@ -30,27 +30,61 @@ namespace Leasing.Infrastracture.QueryHandler
             return invoiceResponse;
         }
 
-        public async Task<List<InvoiceResponse>> GetListOfInvoiceResponseAsync()
+        public async Task<List<InvoiceResponse>> GetListOfInvoiceResponseAsync(string searchText)
         {
             IQueryable<Invoice> query = _context.Invoices.AsQueryable();
 
-            return await query.ProjectTo<InvoiceResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.PaymentReceipt!.ReferenceNumber.ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Tenant.Name.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Apartment.Name.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Apartment.Number.ToString().ToLower().Contains(loweredSearchText));
+            }
+
+            return await query.OrderByDescending(q => q.DatePeriod).ProjectTo<InvoiceResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<List<InvoiceResponse>> GetListOfInvoiceResponseByTenantAsync(Guid tenantId)
+        public async Task<List<InvoiceResponse>> GetListOfInvoiceResponseByTenantAsync(Guid tenantId, string searchText)
         {
-            IQueryable<Invoice> query = _context.Invoices.AsQueryable();
-            query = query.Where(invoice => invoice.LeaseAgreement.TenantId.Value == tenantId);
+            IQueryable<Invoice> query = _context.Invoices.Include(i => i.LeaseAgreement).AsQueryable();
 
-            return await query.ProjectTo<InvoiceResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            query = query.Where(invoice => invoice.LeaseAgreement.TenantId == new TenantId(tenantId));
+
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.PaymentReceipt!.ReferenceNumber.ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Tenant.Name.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Apartment.Name.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Apartment.Number.ToString().ToLower().Contains(loweredSearchText));
+            }
+
+
+            return await query.OrderByDescending(q => q.DatePeriod).ProjectTo<InvoiceResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<List<InvoiceResponse>> GetListOfInvoiceResponseByApartmentAsync(Guid apartmentId)
+        public async Task<List<InvoiceResponse>> GetListOfInvoiceResponseByApartmentAsync(Guid apartmentId, string searchText)
         {
-            IQueryable<Invoice> query = _context.Invoices.AsQueryable();
-            query = query.Where(invoice => invoice.LeaseAgreement.ApartmentId.Value == apartmentId);
+            IQueryable<Invoice> query = _context.Invoices.Include(i => i.LeaseAgreement).AsQueryable();
 
-            return await query.ProjectTo<InvoiceResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            query = query.Where(invoice => invoice.LeaseAgreement.ApartmentId == new ApartmentId(apartmentId));
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.PaymentReceipt!.ReferenceNumber.ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Tenant.Name.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Apartment.Name.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.LeaseAgreement.Apartment.Number.ToString().ToLower().Contains(loweredSearchText));
+            }
+
+            return await query.OrderByDescending(q => q.DatePeriod).ProjectTo<InvoiceResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
      

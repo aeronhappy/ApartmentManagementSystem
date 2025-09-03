@@ -24,21 +24,21 @@ namespace Leasing.Controller
         [HttpGet()]
         public async Task<ActionResult<List<InvoiceResponse>>> GetListOfInvoice([FromQuery] string searchText = "")
         {
-            var responses = await _invoiceQueries.GetListOfInvoiceResponseAsync();
+            var responses = await _invoiceQueries.GetListOfInvoiceResponseAsync(searchText);
             return Ok(responses);
         }
 
         [HttpGet("ByApartment")]
         public async Task<ActionResult<List<InvoiceResponse>>> GetListOfInvoiceByApartment([FromQuery] Guid apartmentId ,[FromQuery] string searchText = "")
         {
-            var responses = await _invoiceQueries.GetListOfInvoiceResponseByApartmentAsync(apartmentId);
+            var responses = await _invoiceQueries.GetListOfInvoiceResponseByApartmentAsync(apartmentId, searchText);
             return Ok(responses);
         }
 
         [HttpGet("ByTenant")]
-        public async Task<ActionResult<List<InvoiceResponse>>> GetListOfInvoiceByTenant([FromQuery] Guid tenantId ,[FromQuery] string searchText = "")
+        public async Task<ActionResult<List<InvoiceResponse>>> GetListOfInvoiceByTenant( [FromQuery] Guid tenantId ,[FromQuery] string searchText = "")
         {
-            var responses = await _invoiceQueries.GetListOfInvoiceResponseByTenantAsync(tenantId);
+            var responses = await _invoiceQueries.GetListOfInvoiceResponseByTenantAsync(tenantId,searchText);
             return Ok(responses);
         }
 

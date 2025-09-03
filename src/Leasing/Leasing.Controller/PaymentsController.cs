@@ -26,21 +26,21 @@ namespace Leasing.Controller
         [HttpGet()]
         public async Task<ActionResult<List<PaymentReceiptResponse>>> GetListOfPaymentReceipt([FromQuery] string searchText = "")
         {
-            var responses = await _paymentReceiptQueries.GetListOfPaymentReceiptResponseAsync();
+            var responses = await _paymentReceiptQueries.GetListOfPaymentReceiptResponseAsync(searchText);
             return Ok(responses);
         }
 
         [HttpGet("receiptByApartment")]
         public async Task<ActionResult<List<PaymentReceiptResponse>>> GetListOfPaymentReceiptByApartment([FromQuery] Guid apartmentId ,[FromQuery] string searchText = "")
         {
-            var responses = await _paymentReceiptQueries.GetListOfPaymentReceiptResponseByApartmentAsync(apartmentId);
+            var responses = await _paymentReceiptQueries.GetListOfPaymentReceiptResponseByApartmentAsync(apartmentId, searchText);
             return Ok(responses);
         }
 
         [HttpGet("receiptByTenant")]
         public async Task<ActionResult<List<PaymentReceiptResponse>>> GetListOfPaymentReceiptByTenant([FromQuery] Guid tenantId ,[FromQuery] string searchText = "")
         {
-            var responses = await _paymentReceiptQueries.GetListOfPaymentReceiptResponseByTenantAsync(tenantId);
+            var responses = await _paymentReceiptQueries.GetListOfPaymentReceiptResponseByTenantAsync(tenantId, searchText);
             return Ok(responses);
         }
 

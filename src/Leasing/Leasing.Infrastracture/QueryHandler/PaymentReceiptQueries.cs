@@ -20,29 +20,59 @@ namespace Leasing.Infrastracture.QueryHandler
             _mapper = mapper;
         }
 
-        public async Task<List<PaymentReceiptResponse>> GetListOfPaymentReceiptResponseAsync()
+        public async Task<List<PaymentReceiptResponse>> GetListOfPaymentReceiptResponseAsync(string searchText)
         {
             IQueryable<PaymentReceipt> query = _context.PaymentReceipts.AsQueryable();
 
-            return await query.ProjectTo<PaymentReceiptResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.PaymentDate.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.PaymentMethod.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.ReferenceNumber.ToLower().Contains(loweredSearchText) ||
+                                    a.Invoice.Status.ToString().ToLower().Contains(loweredSearchText));
+            }
+
+            return await query.OrderByDescending(q => q.PaymentDate).ProjectTo<PaymentReceiptResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<List<PaymentReceiptResponse>> GetListOfPaymentReceiptResponseByTenantAsync(Guid tenantId)
+        public async Task<List<PaymentReceiptResponse>> GetListOfPaymentReceiptResponseByTenantAsync(Guid tenantId, string searchText)
         {
-            IQueryable<PaymentReceipt> query = _context.PaymentReceipts.AsQueryable();
+            IQueryable<PaymentReceipt> query = _context.PaymentReceipts.Include(pr => pr.Invoice).ThenInclude(i => i.LeaseAgreement).AsQueryable();
 
-            query = query.Where(paymentReceipt => paymentReceipt.Invoice.LeaseAgreement.TenantId.Value == tenantId);
+            query = query.Where(paymentReceipt => paymentReceipt.Invoice.LeaseAgreement.TenantId == new TenantId(tenantId));
 
-            return await query.ProjectTo<PaymentReceiptResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.PaymentDate.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.PaymentMethod.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.ReferenceNumber.ToLower().Contains(loweredSearchText) ||
+                                    a.Invoice.Status.ToString().ToLower().Contains(loweredSearchText));
+            }
+
+            return await query.OrderByDescending(q=>q.PaymentDate).ProjectTo<PaymentReceiptResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public  async Task<List<PaymentReceiptResponse>> GetListOfPaymentReceiptResponseByApartmentAsync(Guid apartmentId)
+        public  async Task<List<PaymentReceiptResponse>> GetListOfPaymentReceiptResponseByApartmentAsync(Guid apartmentId, string searchText)
         {
-            IQueryable<PaymentReceipt> query = _context.PaymentReceipts.AsQueryable();
+            IQueryable<PaymentReceipt> query = _context.PaymentReceipts.Include(pr=>pr.Invoice).ThenInclude(i => i.LeaseAgreement).AsQueryable();
 
-            query = query.Where(paymentReceipt => paymentReceipt.Invoice.LeaseAgreement.ApartmentId.Value == apartmentId);
+            query = query.Where(paymentReceipt => paymentReceipt.Invoice.LeaseAgreement.ApartmentId == new ApartmentId(apartmentId));
 
-            return await query.ProjectTo<PaymentReceiptResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var loweredSearchText = searchText.ToLower();
+                query = query.Where(a =>
+                                    a.PaymentDate.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.PaymentMethod.ToString().ToLower().Contains(loweredSearchText) ||
+                                    a.ReferenceNumber.ToLower().Contains(loweredSearchText) ||
+                                    a.Invoice.Status.ToString().ToLower().Contains(loweredSearchText));
+            }
+
+            return await query.OrderByDescending(q => q.PaymentDate).ProjectTo<PaymentReceiptResponse>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<PaymentReceiptResponse?> GetPaymentReceiptResponseByIdAsync(Guid id)

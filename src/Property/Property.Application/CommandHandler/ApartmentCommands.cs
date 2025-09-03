@@ -1,11 +1,13 @@
-﻿using ApartmentManagementSystem.SharedKernel.Enum;
+﻿using ApartmentManagementSystem.Contracts.Services;
+using ApartmentManagementSystem.SharedKernel.Enum;
 using ApartmentManagementSystem.SharedKernel.Errors;
-using ApartmentManagementSystem.Contracts.Services;
 using AutoMapper;
 using FluentResults;
 using Property.Application.Commands;
+using Property.Application.Errors;
 using Property.Application.Response;
 using Property.Domain.Entities;
+using Property.Domain.Exception;
 using Property.Domain.Repositories;
 using Property.Domain.ValueObjects;
 
@@ -27,21 +29,33 @@ namespace Property.Application.CommandHandler
 
         public async Task<Result<ApartmentResponse>> CreateApartmentAsync(Guid buildingId, int number, int floor, int areaSqm, CancellationToken cancellationToken)
         {
-            Building? building = await _unitOfWork.Buildings.GetBuildingByIdAsync(new BuildingId(buildingId));
+            try
+            {
+                Building? building = await _unitOfWork.Buildings.GetBuildingByIdAsync(new BuildingId(buildingId));
 
-            if (building == null)
-                return Result.Fail(new EntityNotFoundError($"No Building = {buildingId} found"));
+                if (building == null)
+                    return Result.Fail(new EntityNotFoundError($"No Building = {buildingId} found"));
 
 
-            var apartment = Apartment.Create(building, number, floor, areaSqm);
-            var apartmentResponse = _mapper.Map<ApartmentResponse>(apartment);
+                var apartment = Apartment.Create(building, number, floor, areaSqm);
+                var apartmentResponse = _mapper.Map<ApartmentResponse>(apartment);
 
-            building.AddApartment(apartment);
-            await _unitOfWork.Apartments.AddApartmentAsync(apartment);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            await _domainEventPublisher.PublishAsync(apartment.DomainEvents, default);
+                building.AddApartment(apartment);
+                await _unitOfWork.Apartments.AddApartmentAsync(apartment);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _domainEventPublisher.PublishAsync(apartment.DomainEvents, default);
 
-            return Result.Ok(apartmentResponse);
+                return Result.Ok(apartmentResponse);
+            }
+            catch (UnitNumberIsAlreadyTakenInSameFloorException ex)
+            {
+                return Result.Fail(new UnitNumberIsAlreadyTakenInSameFloorError(ex.Message));
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return Result.Fail(new UnitNumberIsAlreadyTakenInSameFloorError(ex.Message));
+            }
+
         }
 
 
@@ -61,32 +75,79 @@ namespace Property.Application.CommandHandler
 
         public async Task<Result> UpdateApartmentAsync(Guid apartmentId, int number, int floor, int areaSqm, CancellationToken cancellationToken)
         {
-            Apartment? unit = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
+            try
+            {
+                Apartment? unit = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
 
-            if (unit is null)
-                return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
+                if (unit is null)
+                    return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
 
-            unit.Update(number, floor, areaSqm);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return Result.Ok();
+                unit.Update(number, floor, areaSqm);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                return Result.Ok();
+            }
+            catch (UnitNumberIsAlreadyTakenInSameFloorException ex)
+            {
+                return Result.Fail(new UnitNumberIsAlreadyTakenInSameFloorError(ex.Message));
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return Result.Fail(new UnitNumberIsAlreadyTakenInSameFloorError(ex.Message));
+            }
+
+
+
         }
 
         public async Task<Result> AssignOwnerAsync(Guid apartmentId, Guid ownerId, CancellationToken cancellationToken)
         {
-            Apartment? apartment = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
-            if (apartment is null)
-                return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
+            try
+            {
+                Apartment? apartment = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
+                if (apartment is null)
+                    return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
 
 
-            Owner? owner = await _unitOfWork.Owners.GetOwnerByIdAsync(new OwnerId(ownerId));
-            if (owner is null)
-                return Result.Fail(new EntityNotFoundError($"No Owner = {ownerId} found"));
+                Owner? owner = await _unitOfWork.Owners.GetOwnerByIdAsync(new OwnerId(ownerId));
+                if (owner is null)
+                    return Result.Fail(new EntityNotFoundError($"No Owner = {ownerId} found"));
 
 
-            apartment.AssignOwner(apartment,owner.Id);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            await _domainEventPublisher.PublishAsync(apartment.DomainEvents, default);
-            return Result.Ok();
+                apartment.AssignOwner(apartment, owner.Id);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _domainEventPublisher.PublishAsync(apartment.DomainEvents, default);
+                return Result.Ok();
+            }
+            catch (HasOwnerAlreadyException ex)
+            {
+                return Result.Fail(new HasOwnerAlreadyError(ex.Message));
+            }
+           
+        }
+
+        public async Task<Result> RemoveOwnerToApartmentAsync(Guid apartmentId, Guid ownerId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Apartment? apartment = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
+                if (apartment is null)
+                    return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
+
+
+                Owner? owner = await _unitOfWork.Owners.GetOwnerByIdAsync(new OwnerId(ownerId));
+                if (owner is null)
+                    return Result.Fail(new EntityNotFoundError($"No Owner = {ownerId} found"));
+
+
+                apartment.RemoveOwner(apartment, owner.Id);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _domainEventPublisher.PublishAsync(apartment.DomainEvents, default);
+                return Result.Ok();
+            }
+            catch (NoOwnerException ex)
+            {
+                return Result.Fail(new NoOwnerError(ex.Message));
+            }
         }
 
         public async Task<Result> AddLeaseAgreementAsync(Guid apartmentId, LeaseAgreement leaseAgreement, CancellationToken cancellationToken)
@@ -102,14 +163,25 @@ namespace Property.Application.CommandHandler
 
         public async Task<Result> ChangeStatusAsync(Guid apartmentId, ApartmentStatus apartmentStatus, CancellationToken cancellationToken)
         {
-            Apartment? apartment = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
-            if (apartment is null)
-                return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
+            try
+            {
+                Apartment? apartment = await _unitOfWork.Apartments.GetApartmentByIdAsync(new ApartmentId(apartmentId));
+                if (apartment is null)
+                    return Result.Fail(new EntityNotFoundError($"No Apartment = {apartmentId} found"));
 
-            apartment.ChangeStatus(apartmentStatus);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return Result.Ok();
+                apartment.ChangeStatus(apartmentStatus);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                return Result.Ok();
+            }
+            catch (OccupiedStatusCannotChangeException ex)
+            {
+                return Result.Fail(new OccupiedStatusCannotChangeError(ex.Message));
+            }
+
+
 
         }
+
+      
     }
 }

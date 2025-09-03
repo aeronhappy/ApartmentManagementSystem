@@ -16,7 +16,6 @@ namespace Property.Infrastracture.Data.Repositories
 
         public async Task<Apartment?> GetApartmentByIdAsync(ApartmentId id)
         {
-          
             return await _context.Apartments
             .Include(a=>a.Building)
             .FirstOrDefaultAsync(i => i.Id == id);

@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Errors\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

@@ -6,6 +6,7 @@ namespace Ownership.Domain.Repositories
     public interface IApartmentRepository
     {
         Task<Apartment?> GetApartmentByIdAsync(ApartmentId id);
+        Task DeleteApartmentAsync(ApartmentId id);
         Task AddApartmentAsync(Apartment apartment);
     }
 }
